@@ -22,6 +22,7 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
     background-image: url('../../images/add-button-hover.svg');
     transition: 0.5s ease-in-out;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 720px){
