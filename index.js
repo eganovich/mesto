@@ -32,9 +32,10 @@ function toggleModal(){
 openModalButton.addEventListener('click', toggleModal)
 
 modal.addEventListener('submit', (e) => {
+    profileUpdate();
     e.preventDefault();
     toggleModal();
-    profileUpdate();
+    
 })
    
 
