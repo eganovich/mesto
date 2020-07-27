@@ -5,9 +5,12 @@
     height: 18.13px;
     border: none;
     background-color: transparent;
+    transition: 0.5s ease-in-out;
 
 }
 
 .place__like:hover{
+    background-image: url('../../../images/like-hover.svg');
+    transition: 0.5s ease-in-out;
     cursor: pointer;
 }

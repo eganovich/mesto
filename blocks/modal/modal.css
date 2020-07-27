@@ -1,8 +1,11 @@
+@import url('./__content/modal__content.css');
 @import url('./__edit-form/modal__edit-form.css');
 @import url('./__heading/modal__heading.css');
 @import url('./__close-button/modal__close-button.css');
 @import url('./__input/modal__input.css');
 @import url('./__submit-button/modal__submit-button.css');
+@import url('./__content-photo/modal__content-photo.css');
+@import url('./__photo-title/modal__photo-title.css');
 
 
 .modal{

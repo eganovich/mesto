@@ -30,49 +30,6 @@
         </section>
         <section class="elements">
           <ul class="places">
-            <li class="place">
-              <img class="place__photo" alt="Старинная церковь на фоне гор. Фотография." src="./images/karachaevsk.jpg">
-              <div class="place__about">
-                <h2 class="place__name">Карачаевo-Черкесия</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
-            <li class="place">
-              <img class="place__photo" alt="Гора Эльбру на горизонте на фоне закатного неба. Фотогафия."
-                src="./images/elbrus.png">
-              <div class="place__about">
-                <h2 class="place__name">Гора Эльбрус</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
-            <li class="place">
-              <img class="place__photo" alt="Горад Домбай осенью. Фотография." src="./images/dombai.png">
-              <div class="place__about">
-                <h2 class="place__name">Домбай</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
-            <li class="place">
-              <img class="place__photo" alt="Лед на озере Байкал. Фотография." src="./images/baikal.jpg">
-              <div class="place__about">
-                <h2 class="place__name">Байкал</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
-            <li class="place">
-              <img class="place__photo" alt="Небоскребы Москва-Сити. Фотография." src="./images/moscow.jpg">
-              <div class="place__about">
-                <h2 class="place__name">Москва</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
-            <li class="place">
-              <img class="place__photo" alt="Православная церковь. Фотография." src="./images/rostov.jpg">
-              <div class="place__about">
-                <h2 class="place__name">Ростов</h2>
-                <button type="button" class="place__like"></button>
-              </div>
-            </li>
           </ul>
         </section>
       </main>
@@ -81,15 +38,50 @@
       </footer>
     </div>
   </div>
-  <div class="modal">
-    <form action="#" class="modal__edit-form" method="post" name="profile-edit-form">
+
+  <div class="modal modal_type_edit-profile">
+    <div class="modal__content">
       <button type="button" class="modal__close-button"></button>
       <h3 class="modal__heading">Редактировать профиль</h3>
-      <input type="text" class="modal__input modal__input_type_name" value='' placeholder="Имя">
-      <input type="text" class="modal__input modal__input_type_about" value='' placeholder="Работа">
-      <button type="submit" class="modal__submit-button">Сохранить</button>
-    </form>
+      <form action="#" class="modal__edit-form" method="post" name="profile-edit-form">
+        <input type="text" class="modal__input modal__input_type_name" value='' placeholder="Имя">
+        <input type="text" class="modal__input modal__input_type_about" value='' placeholder="Работа">
+        <button type="submit" class="modal__submit-button">Сохранить</button>
+      </form>
+    </div>
   </div>
+
+  <div class="modal modal_type_add-card">
+    <div class="modal__content">
+      <form action="#" class="modal__edit-form" method="post" name="profile-edit-form">
+        <button type="button" class="modal__close-button"></button>
+        <h3 class="modal__heading">Новое место</h3>
+        <input type="text" class="modal__input modal__input_type_place-name" value='' placeholder="Название">
+        <input type="text" class="modal__input modal__input_type_place-photo-link" value=''
+          placeholder="Ссылка на картинку">
+        <button type="submit" class="modal__submit-button">Создать</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal modal_type_photo">
+    <div class="modal__content-photo">
+      <button type="button" class="modal__close-button"></button>
+      <img class="modal__photo" alt="Фотография места" src="">
+      <h3 class="modal__photo-title"></h3>
+    </div>
+  </div>
+
+  <template class="template-card">
+    <li class="place">
+      <img class="place__photo" alt="Фотография места" src="">
+      <div class="place__about">
+        <h2 class="place__name"></h2>
+        <button type="button" class="place__like"></button>
+        <button type="button" class="place__trash"></button>
+      </div>
+  </template>
+
   <script src="./index.js"></script>
 </body>
 
