@@ -9,3 +9,8 @@
     flex-direction: column;
 }
 
+@media screen and (max-width: 520px){
+    .modal__content{
+        width: calc(100% - 90px);
+  }}
+
