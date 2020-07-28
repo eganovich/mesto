@@ -5,7 +5,9 @@
 @import url('./__input/modal__input.css');
 @import url('./__submit-button/modal__submit-button.css');
 @import url('./__content-photo/modal__content-photo.css');
+@import url('./__photo/modal__photo.css');
 @import url('./__photo-title/modal__photo-title.css');
+
 
 
 .modal{
@@ -17,8 +19,11 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
-    
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s linear;
 }
+    

@@ -5,12 +5,11 @@ const photoModal = document.querySelector('.modal_type_photo')
 const modal = document.querySelector('.modal');
 
 
-//const closeModalButton = document.querySelector('.modal__close-button');
-
 //DOM elements
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
 const cardsList = document.querySelector('.places');
+const templateCard = document.querySelector('.template-card').content.querySelector('.place');
 
 
 //open-modals-buttons
@@ -39,6 +38,7 @@ const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-butto
 //photoModal's elements
 const modalPhoto = photoModal.querySelector('.modal__photo ');
 const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
+
 //Card's array
 const initialCards = [
     {
@@ -67,7 +67,7 @@ const initialCards = [
     },
 ];
 
-const templateCard = document.querySelector('.template-card').content.querySelector('.place');
+
 
 
 function createCard(data) {
