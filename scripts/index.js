@@ -57,7 +57,7 @@ function updateModalEditProfileForm() {
 }
 
 function submitEditProfileForm(e) {
-    e.preventDefault();
+   // e.preventDefault();
     updateProfile();
     toggleModal(editProfileModal);
 }
@@ -76,7 +76,7 @@ addCardModalCloseButton.addEventListener('click', () => {
 addCardModal.addEventListener('submit', submitAddCardForm);
 
 function submitAddCardForm(e) {
-    e.preventDefault();
+    //e.preventDefault();
     renderCard({ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value });
     toggleModal(addCardModal);
 }
