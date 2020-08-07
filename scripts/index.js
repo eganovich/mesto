@@ -21,10 +21,14 @@ const photoModalCloseButton = photoModal.querySelector('.modal__close-button');
 //editProfileModal
 const editProfileFormName = editProfileModal.querySelector('.modal__input_type_name');
 const editProfileFormAbout = editProfileModal.querySelector('.modal__input_type_about');
+
 //addCardModal
 const addCardForm = addCardModal.querySelector('.modal__edit-form');
 const addCardFormPlaceName = addCardModal.querySelector('.modal__input_type_place-name');
 const addCardFormPlacePhotoLink = addCardModal.querySelector('.modal__input_type_place-photo-link');
+const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-button');
+
+
 //photoModal
 const modalPhoto = photoModal.querySelector('.modal__photo ');
 const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
@@ -33,6 +37,25 @@ const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 function toggleModal(modal) {
     modal.classList.toggle('modal_is-open');
 }
+
+//Закрываем все модалки по Esc
+document.addEventListener('keydown', (evt) => {
+    if(evt.key === "Escape") {
+        toggleModal(document.querySelector('.modal_is-open'));
+    };
+});
+
+//Закрываем модалки нажанием на оверлэй
+const setOverlayListener = () => {
+    const overlayList = Array.from(document.querySelectorAll('.modal__overlay'));
+    overlayList.forEach((overlay) => {
+      overlay.addEventListener('click', (evt) => {
+        toggleModal(evt.target.parentElement);
+      });
+    });
+  }
+setOverlayListener();
+
 
 //Модалка обновления профиля
 editProfileModalOpenButton.addEventListener('click', () => {
@@ -56,8 +79,7 @@ function updateModalEditProfileForm() {
     editProfileFormAbout.value = profileAbout.textContent;
 }
 
-function submitEditProfileForm(e) {
-   // e.preventDefault();
+function submitEditProfileForm() {
     updateProfile();
     toggleModal(editProfileModal);
 }
@@ -75,10 +97,11 @@ addCardModalCloseButton.addEventListener('click', () => {
 
 addCardModal.addEventListener('submit', submitAddCardForm);
 
-function submitAddCardForm(e) {
-    //e.preventDefault();
+function submitAddCardForm() {
     renderCard({ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value });
     toggleModal(addCardModal);
+    addCardFormSubmitButton.classList.add('modal__submit-button_disabled');
+    addCardFormSubmitButton.setAttribute('disabled', true);
 }
 
 //Модалка с фотографией
@@ -157,3 +180,6 @@ initialCards.forEach((data) => {
 function renderCard(data) {
     cardsList.prepend(createCard(data));
 }
+
+
+  
