@@ -33,28 +33,29 @@ const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-butto
 const modalPhoto = photoModal.querySelector('.modal__photo ');
 const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 
-//Функция открывания и закрывания всех модалок
+//Функции открывания и закрывания всех модалок
 function toggleModal(modal) {
     modal.classList.toggle('modal_is-open');
+    closeModalByOverlay(modal);
+    closeModalByEsc(modal);
+    
 }
 
-//Закрываем все модалки по Esc
-document.addEventListener('keydown', (evt) => {
-    if(evt.key === "Escape") {
-        toggleModal(document.querySelector('.modal_is-open'));
-    };
-});
 
-//Закрываем модалки нажанием на оверлэй
-const setOverlayListener = () => {
-    const overlayList = Array.from(document.querySelectorAll('.modal__overlay'));
-    overlayList.forEach((overlay) => {
-      overlay.addEventListener('click', (evt) => {
-        toggleModal(evt.target.parentElement);
-      });
+const closeModalByOverlay = (modal) => {
+  const overlay = modal.querySelector('.modal__overlay'); 
+  overlay.addEventListener('click', (evt) => { 
+      evt.target.parentElement.classList.remove('modal_is-open');
     });
-  }
-setOverlayListener();
+};
+
+const closeModalByEsc = (modal) => {
+  document.addEventListener('keydown', (evt) => { 
+    if(evt.key === "Escape") { 
+       modal.classList.remove('modal_is-open'); 
+        }; 
+     });
+};
 
 
 //Модалка обновления профиля
@@ -67,7 +68,7 @@ editProfileModalCloseButton.addEventListener('click', () => {
     toggleModal(editProfileModal);
 })
 
-editProfileModal.addEventListener('submit', submitEditProfileForm);
+
 
 function updateProfile() {
     profileName.textContent = editProfileFormName.value;
@@ -95,7 +96,6 @@ addCardModalCloseButton.addEventListener('click', () => {
     addCardForm.reset();
 })
 
-addCardModal.addEventListener('submit', submitAddCardForm);
 
 function submitAddCardForm() {
     renderCard({ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value });
@@ -153,16 +153,16 @@ function createCard(data) {
     cardPhoto.alt = data.name + '. Фотография.';
     cardPhoto.src = data.link;
 
-    cardRemove.addEventListener('click', (e) => {
-        e.target.closest('.place').remove();
+    cardRemove.addEventListener('click', (evt) => {
+        evt.target.closest('.place').remove();
     })
 
-    cardLike.addEventListener('click', (e) => {
-        e.target.classList.toggle('place__like_active');
+    cardLike.addEventListener('click', (evt) => {
+        evt.target.classList.toggle('place__like_active');
     })
 
-    cardPhoto.addEventListener('click', (e) => {
-        e.target.closest('.place');
+    cardPhoto.addEventListener('click', (evt) => {
+        evt.target.closest('.place');
         modalPhoto.src = cardPhoto.src;
         modalPhoto.alt = cardPhoto.alt;
         modalPhotoTitle.textContent = cardName.textContent;
@@ -182,4 +182,6 @@ function renderCard(data) {
 }
 
 
-  
+editProfileModal.addEventListener('submit', submitEditProfileForm);
+
+addCardModal.addEventListener('submit', submitAddCardForm);
