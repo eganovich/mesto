@@ -44,15 +44,16 @@ const closeModalByOverlay = (evt) => {
     const modal = document.querySelector('.modal_is-open');
     const overlay = modal.querySelector('.modal__overlay');
     evt.target.parentElement.classList.remove('modal_is-open');
-    document.addEventListener('click', closeModalByOverlay);
+    document.removeEventListener('click', closeModalByOverlay);
 };
 
 const closeModalByEsc = (evt) => {
     const modal = document.querySelector('.modal_is-open')
     if (evt.key === "Escape") {
         modal.classList.remove('modal_is-open');
+        console.log(modal);
     };
-    modal.removeEventListener('keydown', closeModalByEsc);
+    document.removeEventListener('keydown', closeModalByEsc);
 };
 
 
