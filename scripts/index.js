@@ -34,17 +34,18 @@ const modalPhoto = photoModal.querySelector('.modal__photo ');
 const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 
 //Функции открывания и закрывания всех модалок
-function toggleModal(modal) {
-    modal.classList.toggle('modal_is-open');
+function toggleModal(modal) {    
     document.addEventListener('keydown', closeModalByEsc);
     modal.addEventListener('click', closeModalByOverlay);
+    modal.classList.toggle('modal_is-open');
+    console.log(modal);
 }
 
 const closeModalByOverlay = (evt) => {
     const modal = document.querySelector('.modal_is-open');
     const overlay = modal.querySelector('.modal__overlay');
     evt.target.parentElement.classList.remove('modal_is-open');
-    document.removeEventListener('click', closeModalByOverlay);
+    modal.removeEventListener('click', closeModalByOverlay);
 };
 
 const closeModalByEsc = (evt) => {
@@ -52,8 +53,9 @@ const closeModalByEsc = (evt) => {
     if (evt.key === "Escape") {
         modal.classList.remove('modal_is-open');
         console.log(modal);
+        document.removeEventListener('keydown', closeModalByEsc);
     };
-    document.removeEventListener('keydown', closeModalByEsc);
+    
 };
 
 
