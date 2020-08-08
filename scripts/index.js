@@ -36,26 +36,25 @@ const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 //Функции открывания и закрывания всех модалок
 function toggleModal(modal) {
     modal.classList.toggle('modal_is-open');
-    closeModalByOverlay(modal);
-    closeModalByEsc(modal);
-    
+    document.addEventListener('keydown', closeModalByEsc);
+    modal.addEventListener('click', closeModalByOverlay);
 }
 
-
-const closeModalByOverlay = (modal) => {
-  const overlay = modal.querySelector('.modal__overlay'); 
-  overlay.addEventListener('click', (evt) => { 
-      evt.target.parentElement.classList.remove('modal_is-open');
-    });
+const closeModalByOverlay = (evt) => {
+    const modal = document.querySelector('.modal_is-open');
+    const overlay = modal.querySelector('.modal__overlay');
+    evt.target.parentElement.classList.remove('modal_is-open');
+    document.addEventListener('click', closeModalByOverlay);
 };
 
-const closeModalByEsc = (modal) => {
-  document.addEventListener('keydown', (evt) => { 
-    if(evt.key === "Escape") { 
-       modal.classList.remove('modal_is-open'); 
-        }; 
-     });
+const closeModalByEsc = (evt) => {
+    const modal = document.querySelector('.modal_is-open')
+    if (evt.key === "Escape") {
+        modal.classList.remove('modal_is-open');
+    };
+    modal.removeEventListener('keydown', closeModalByEsc);
 };
+
 
 
 //Модалка обновления профиля
