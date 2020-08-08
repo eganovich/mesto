@@ -38,7 +38,7 @@ function toggleModal(modal) {
     document.addEventListener('keydown', closeModalByEsc);
     modal.addEventListener('click', closeModalByOverlay);
     modal.classList.toggle('modal_is-open');
-    console.log(modal);
+   
 }
 
 const closeModalByOverlay = (evt) => {
@@ -51,8 +51,7 @@ const closeModalByOverlay = (evt) => {
 const closeModalByEsc = (evt) => {
     const modal = document.querySelector('.modal_is-open')
     if (evt.key === "Escape") {
-        modal.classList.remove('modal_is-open');
-        console.log(modal);
+        modal.classList.remove('modal_is-open');        
         document.removeEventListener('keydown', closeModalByEsc);
     };
     
