@@ -43,10 +43,12 @@ function toggleModal(modal) {
 
 const closeModalByOverlay = (evt) => {
     const modal = document.querySelector('.modal_is-open');
-    const overlay = modal.querySelector('.modal__overlay');
-    evt.target.parentElement.classList.remove('modal_is-open');
-    modal.removeEventListener('click', closeModalByOverlay);
+    if (evt.target.classList.contains('modal__overlay')){
+        evt.target.parentElement.classList.remove('modal_is-open');
+        modal.removeEventListener('click', closeModalByOverlay);
+    }       
 };
+
 
 const closeModalByEsc = (evt) => {
     const modal = document.querySelector('.modal_is-open')
