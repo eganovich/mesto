@@ -33,19 +33,23 @@ const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-butto
 const modalPhoto = photoModal.querySelector('.modal__photo ');
 const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 
-//Функции открывания и закрывания всех модалок
-function toggleModal(modal) {    
-    document.addEventListener('keydown', closeModalByEsc);
-    modal.addEventListener('click', closeModalByOverlay);
-    modal.classList.toggle('modal_is-open');
-   
-}
+
+function toggleModal(modal){ 
+    modal.classList.toggle('modal_is-open');   
+    if (modal.classList.contains('modal_is-open') === false){ 
+        document.removeEventListener('keydown', closeModalByEsc);
+        modal.removeEventListener('click', closeModalByOverlay);         
+    } else{                    
+        document.addEventListener('keydown', closeModalByEsc);
+        modal.addEventListener('click', closeModalByOverlay); 
+    } 
+} 
+ 
 
 const closeModalByOverlay = (evt) => {
     const modal = document.querySelector('.modal_is-open');
     if (evt.target.classList.contains('modal__overlay')){
-        evt.target.parentElement.classList.remove('modal_is-open');
-        modal.removeEventListener('click', closeModalByOverlay);
+        toggleModal(evt.target.parentElement);        
     }       
 };
 
@@ -53,8 +57,7 @@ const closeModalByOverlay = (evt) => {
 const closeModalByEsc = (evt) => {
     const modal = document.querySelector('.modal_is-open')
     if (evt.key === "Escape") {
-        modal.classList.remove('modal_is-open');        
-        document.removeEventListener('keydown', closeModalByEsc);
+        toggleModal(modal);        
     };
     
 };
