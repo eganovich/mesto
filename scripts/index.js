@@ -69,11 +69,14 @@ function updateModalEditProfileForm() {
 //Добавляем слушатель на кнопки открытия и закрытия Модалки добавления новой карточки
 addCardModalOpenButton.addEventListener('click', () => {
     toggleModal(addCardModal);
+    addCardForm.reset();
 })
 //При закрытии очищаем поля Модалки добавления новой карточки
 addCardModalCloseButton.addEventListener('click', () => {
     toggleModal(addCardModal);
     addCardForm.reset();
+    addCardFormSubmitButton.classList.add('modal__submit-button_disabled');
+    addCardFormSubmitButton.setAttribute('disabled', true);
 })
 
 //Добавляем слушателя события "сабмит" на Модалку добавления новой карточки.
