@@ -1,3 +1,7 @@
+import FormValidator from './FormValidator.js';
+import Card from './Card.js';
+import {toggleModal} from './utils.js';
+
 //Объявляем элементы страницы
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
@@ -29,80 +33,55 @@ const addCardFormPlacePhotoLink = addCardModal.querySelector('.modal__input_type
 const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-button');
 
 
-//photoModal
-const modalPhoto = photoModal.querySelector('.modal__photo ');
-const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
-
-
-function toggleModal(modal){ 
-    modal.classList.toggle('modal_is-open');   
-    if (modal.classList.contains('modal_is-open') === false){ 
-        document.removeEventListener('keydown', closeModalByEsc);
-        modal.removeEventListener('click', closeModalByOverlay);         
-    } else{                    
-        document.addEventListener('keydown', closeModalByEsc);
-        modal.addEventListener('click', closeModalByOverlay); 
-    } 
-} 
- 
-
-const closeModalByOverlay = (evt) => {
-    const modal = document.querySelector('.modal_is-open');
-    if (evt.target.classList.contains('modal__overlay')){
-        toggleModal(evt.target.parentElement);        
-    }       
-};
-
-
-const closeModalByEsc = (evt) => {
-    const modal = document.querySelector('.modal_is-open')
-    if (evt.key === "Escape") {
-        toggleModal(modal);        
-    };
-    
-};
-
-
-
-//Модалка обновления профиля
+//Добавляем слушатель на кнопки открытия и закрытия Модалки обновления профиля
+//При открытии вызываем функцию обновления формы редактирования
 editProfileModalOpenButton.addEventListener('click', () => {
     toggleModal(editProfileModal);
     updateModalEditProfileForm();
 })
-
+//При закрытии вызываем функцию, которая закрывает модалку редактирования профиля
 editProfileModalCloseButton.addEventListener('click', () => {
     toggleModal(editProfileModal);
 })
 
+//Добавляем слушателя события "сабмит" на форму редактирования профиля.
+//При событии "сабмит" вызыяваем функцию, которая обновляет профиль и закрывает модалку
+editProfileModal.addEventListener('submit', submitEditProfileForm);
 
-
-function updateProfile() {
-    profileName.textContent = editProfileFormName.value;
-    profileAbout.textContent = editProfileFormAbout.value;
-}
-
-function updateModalEditProfileForm() {
-    editProfileFormName.value = profileName.textContent;
-    editProfileFormAbout.value = profileAbout.textContent;
-}
-
+//Функцию, которая обновляет профиль и закрывает модалку
 function submitEditProfileForm() {
     updateProfile();
     toggleModal(editProfileModal);
 }
 
-//Модалка добавления новой карточки
+//Функция обновления профиля
+function updateProfile() {
+    profileName.textContent = editProfileFormName.value;
+    profileAbout.textContent = editProfileFormAbout.value;
+}
+
+//Функция обновления формы редактирования данными из профиля
+function updateModalEditProfileForm() {
+    editProfileFormName.value = profileName.textContent;
+    editProfileFormAbout.value = profileAbout.textContent;
+}
+
+//Добавляем слушатель на кнопки открытия и закрытия Модалки добавления новой карточки
 addCardModalOpenButton.addEventListener('click', () => {
     toggleModal(addCardModal);
-    addCardForm.reset();
 })
-
+//При закрытии очищаем поля Модалки добавления новой карточки
 addCardModalCloseButton.addEventListener('click', () => {
     toggleModal(addCardModal);
     addCardForm.reset();
 })
 
+//Добавляем слушателя события "сабмит" на Модалку добавления новой карточки.
+//При событии "сабмит" вызыявает
+// функцию, которая генерирует карточку, закрывает модалку и добавляет селекторы для блокировки кнопки
+addCardModal.addEventListener('submit', submitAddCardForm);
 
+//Функция, которая генерирует карточку, закрывает модалку и добавляет селекторы для блокировки кнопки
 function submitAddCardForm() {
     renderCard({ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value });
     toggleModal(addCardModal);
@@ -110,14 +89,11 @@ function submitAddCardForm() {
     addCardFormSubmitButton.setAttribute('disabled', true);
 }
 
-//Модалка с фотографией
+//Добавляем слушателя на кнопку закрытия окна с превью фото
+//При "клик" вызываем функцию закрытия модалки
 photoModalCloseButton.addEventListener('click', () => {
     toggleModal(photoModal);
 })
-
-
-//Генерация карточек
-const templateCard = document.querySelector('.template-card').content.querySelector('.place');
 
 //Массив исходных карточек
 const initialCards = [
@@ -148,46 +124,32 @@ const initialCards = [
 ];
 
 
-function createCard(data) {
-    const cardElement = templateCard.cloneNode(true);
-    const cardPhoto = cardElement.querySelector('.place__photo');
-    const cardName = cardElement.querySelector('.place__name');
-    const cardLike = cardElement.querySelector('.place__like');
-    const cardRemove = cardElement.querySelector('.place__trash');
-
-    cardName.textContent = data.name;
-    cardPhoto.alt = data.name + '. Фотография.';
-    cardPhoto.src = data.link;
-
-    cardRemove.addEventListener('click', (evt) => {
-        evt.target.closest('.place').remove();
-    })
-
-    cardLike.addEventListener('click', (evt) => {
-        evt.target.classList.toggle('place__like_active');
-    })
-
-    cardPhoto.addEventListener('click', (evt) => {
-        evt.target.closest('.place');
-        modalPhoto.src = cardPhoto.src;
-        modalPhoto.alt = cardPhoto.alt;
-        modalPhotoTitle.textContent = cardName.textContent;
-        toggleModal(photoModal);
-    })
-
-    return cardElement;
-}
-
-
+//Функция которая добавляет на страницу карточки из массивы
 initialCards.forEach((data) => {
     renderCard(data);
 })
 
+//Функция генерации карточек, которая создает экземпляры класса Card
 function renderCard(data) {
-    cardsList.prepend(createCard(data));
+    const card = new Card(data);
+    const cardElement = card.createCard();    
+    cardsList.prepend(cardElement);
 }
 
+//Объект свойств модальных окон, необходых для валидации
+const object = {
+    formSelector: '.modal__edit-form',
+    inputSelector: '.modal__input',
+    submitButtonSelector: '.modal__submit-button',
+    inactiveButtonClass: 'modal__submit-button_disabled',
+    inputErrorClass: 'modal__input_invalide',
+    errorClass: 'modal__error-message_visible'
+}
 
-editProfileModal.addEventListener('submit', submitEditProfileForm);
+//Создаем экземпляр класса FormValidator для Модалки редактирования профиля
+const editeProfileValidator = new FormValidator(object, editProfileModal);
+editeProfileValidator.enableValidation(); 
 
-addCardModal.addEventListener('submit', submitAddCardForm);
+//Создаем экземпляр класса FormValidator для Модалки добавления новой карточки
+const addCardValidator = new FormValidator(object, addCardModal);
+addCardValidator.enableValidation(); 

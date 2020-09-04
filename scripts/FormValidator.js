@@ -84,22 +84,8 @@ _hasInvalidInput(inputs) {
   
 }
 
-const object = {
-    formSelector: '.modal__edit-form',
-    inputSelector: '.modal__input',
-    submitButtonSelector: '.modal__submit-button',
-    inactiveButtonClass: 'modal__submit-button_disabled',
-    inputErrorClass: 'modal__input_invalide',
-    errorClass: 'modal__error-message_visible'
-}
-const formElementEditProfile = document.querySelector('.modal_type_edit-profile');
-const formElementAddCard = document.querySelector('.modal_type_add-card');
+export default FormValidator;
 
-const editeProfileValidator = new FormValidator(object, formElementEditProfile);
-editeProfileValidator.enableValidation(); 
-
-const addCardValidator = new FormValidator(object, formElementAddCard);
-addCardValidator.enableValidation(); 
 
   
 
