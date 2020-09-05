@@ -134,7 +134,7 @@ initialCards.forEach((data) => {
 
 //Функция генерации карточек, которая создает экземпляры класса Card
 function renderCard(data) {
-    const card = new Card(data);
+    const card = new Card(data, '.template-card');
     const cardElement = card.createCard();    
     cardsList.prepend(cardElement);
 }
