@@ -1,10 +1,17 @@
 import FormValidator from './FormValidator.js';
 import Card from './Card.js';
+import Section from './Section.js';
 import {toggleModal} from './utils.js';
+
+import {
+    initialCards 
+} from './constants.js'
 
 //Объявляем элементы страницы
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
+
+// Вот этот селектор будем передавать в класс Section
 const cardsList = document.querySelector('.places');
 
 //Объявляем модальные окна по уникальному селектору
@@ -98,39 +105,25 @@ photoModalCloseButton.addEventListener('click', () => {
     toggleModal(photoModal);
 })
 
-//Массив исходных карточек
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    },
-];
 
 
-//Функция которая добавляет на страницу карточки из массивы
-initialCards.forEach((data) => {
-    renderCard(data);
-})
+
+//Функция которая добавляет на страницу карточки из массивa
+//initialCards.forEach((data) => {
+//    renderCard(data);
+//})
+
+const defaultCardList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card(item, '.template-card');
+      const cardElement = card.createCard();
+      console.log('sss');
+      
+      defaultCardList.addItem(cardElement);
+    }
+  }, '.places');
+  defaultCardList.renderItems();
 
 //Функция генерации карточек, которая создает экземпляры класса Card
 function renderCard(data) {
