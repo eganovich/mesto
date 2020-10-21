@@ -92,8 +92,18 @@ addCardModalCloseButton.addEventListener('click', () => {
 addCardModal.addEventListener('submit', submitAddCardForm);
 
 //Функция, которая генерирует карточку, закрывает модалку и добавляет селекторы для блокировки кнопки
-function submitAddCardForm() {
-    renderCard({ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value });
+function submitAddCardForm() {  
+    const addCardToList = new Section({
+        items: [{ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value }],
+        renderer: (item) => {
+          const card = new Card(item, '.template-card');
+          const cardElement = card.createCard();     
+          
+          addCardToList.addItem(cardElement);
+        }
+      }, '.places');
+      addCardToList.renderItems();
+
     toggleModal(addCardModal);
     addCardFormSubmitButton.classList.add('modal__submit-button_disabled');
     addCardFormSubmitButton.setAttribute('disabled', true);
@@ -105,32 +115,20 @@ photoModalCloseButton.addEventListener('click', () => {
     toggleModal(photoModal);
 })
 
-
-
-
-//Функция которая добавляет на страницу карточки из массивa
-//initialCards.forEach((data) => {
-//    renderCard(data);
-//})
-
+//Добавляем карточки на страницу из массива 
 const defaultCardList = new Section({
     items: initialCards,
+
+// renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
       const card = new Card(item, '.template-card');
       const cardElement = card.createCard();
-      console.log('sss');
-      
+     
       defaultCardList.addItem(cardElement);
     }
   }, '.places');
   defaultCardList.renderItems();
 
-//Функция генерации карточек, которая создает экземпляры класса Card
-function renderCard(data) {
-    const card = new Card(data, '.template-card');
-    const cardElement = card.createCard();    
-    cardsList.prepend(cardElement);
-}
 
 //Объект свойств модальных окон, необходых для валидации
 const object = {
