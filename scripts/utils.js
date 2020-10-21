@@ -12,7 +12,6 @@ export const toggleModal = (modal) => {
 
 //Функция закртыия модалки по клику на оверлей
 const closeModalByOverlay = (evt) => {
-    const modal = document.querySelector('.modal_is-open');
     if (evt.target.classList.contains('modal__overlay')){
         toggleModal(evt.target.parentElement);        
     }       

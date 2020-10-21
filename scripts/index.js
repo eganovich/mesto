@@ -6,6 +6,7 @@ import {toggleModal} from './utils.js';
 import {
     initialCards 
 } from './constants.js'
+import Popup from './Popup.js';
 
 //Объявляем элементы страницы
 const profileName = document.querySelector('.profile__name');
@@ -24,7 +25,7 @@ const editProfileModalOpenButton = document.querySelector('.edit-button');
 const addCardModalOpenButton = document.querySelector('.add-button');
 
 //Объявляем кнопки, закрывающие модальные окна
-const editProfileModalCloseButton = editProfileModal.querySelector('.modal__close-button');
+//const editProfileModalCloseButton = editProfileModal.querySelector('.modal__close-button');
 const addCardModalCloseButton = addCardModal.querySelector('.modal__close-button');
 const photoModalCloseButton = photoModal.querySelector('.modal__close-button');
 
@@ -43,13 +44,15 @@ const addCardFormSubmitButton = addCardModal.querySelector('.modal__submit-butto
 //Добавляем слушатель на кнопки открытия и закрытия Модалки обновления профиля
 //При открытии вызываем функцию обновления формы редактирования
 editProfileModalOpenButton.addEventListener('click', () => {
-    toggleModal(editProfileModal);
+    const editProfileModal = new Popup('.modal_type_edit-profile');
+    editProfileModal.open();
+    editProfileModal.setEventListeners();
     updateModalEditProfileForm();
 })
 //При закрытии вызываем функцию, которая закрывает модалку редактирования профиля
-editProfileModalCloseButton.addEventListener('click', () => {
-    toggleModal(editProfileModal);
-})
+//editProfileModalCloseButton.addEventListener('click', () => {
+//    toggleModal(editProfileModal);
+//})
 
 //Добавляем слушателя события "сабмит" на форму редактирования профиля.
 //При событии "сабмит" вызыяваем функцию, которая обновляет профиль и закрывает модалку
