@@ -1,19 +1,21 @@
 import FormValidator from './FormValidator.js';
 import Card from './Card.js';
 import Section from './Section.js';
-import {toggleModal} from './utils.js';
+import { toggleModal } from './utils.js';
 
 import {
-    initialCards 
+    initialCards
 } from './constants.js'
+
 import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 
 //Объявляем элементы страницы
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
 
 // Вот этот селектор будем передавать в класс Section
-const cardsList = document.querySelector('.places');
+//const cardsList = document.querySelector('.places');
 
 //Объявляем модальные окна по уникальному селектору
 const editProfileModal = document.querySelector('.modal_type_edit-profile');
@@ -76,9 +78,12 @@ function updateModalEditProfileForm() {
     editProfileFormAbout.value = profileAbout.textContent;
 }
 
+
 //Добавляем слушатель на кнопки открытия и закрытия Модалки добавления новой карточки
 addCardModalOpenButton.addEventListener('click', () => {
-    toggleModal(addCardModal);
+    const addCardModal = new Popup('.modal_type_add-card');
+    addCardModal.open();
+    addCardModal.setEventListeners();
     addCardForm.reset();
 })
 //При закрытии очищаем поля Модалки добавления новой карточки
@@ -94,18 +99,32 @@ addCardModalCloseButton.addEventListener('click', () => {
 // функцию, которая генерирует карточку, закрывает модалку и добавляет селекторы для блокировки кнопки
 addCardModal.addEventListener('submit', submitAddCardForm);
 
+
+/* const handleCardClick = (name, link) => {
+    const addedCardPopup = new PopupWithImage('.modal_type_photo', name, link);
+    addedCardPopup.open();
+}
+ */
+const handleCardClick = (element) => {
+    const popupWithImage = new PopupWithImage('.modal_type_photo', element);
+    popupWithImage.open();
+}
+
 //Функция, которая генерирует карточку, закрывает модалку и добавляет селекторы для блокировки кнопки
-function submitAddCardForm() {  
+function submitAddCardForm() {
     const addCardToList = new Section({
         items: [{ name: addCardFormPlaceName.value, link: addCardFormPlacePhotoLink.value }],
         renderer: (item) => {
-          const card = new Card(item, '.template-card');
-          const cardElement = card.createCard();     
-          
-          addCardToList.addItem(cardElement);
+            const card = new Card(
+                item,
+                '.template-card',
+                handleCardClick);
+            const cardElement = card.createCard();
+
+            addCardToList.addItem(cardElement);
         }
-      }, '.places');
-      addCardToList.renderItems();
+    }, '.places');
+    addCardToList.renderItems();
 
     toggleModal(addCardModal);
     addCardFormSubmitButton.classList.add('modal__submit-button_disabled');
@@ -122,15 +141,18 @@ photoModalCloseButton.addEventListener('click', () => {
 const defaultCardList = new Section({
     items: initialCards,
 
-// renderer создает экземпляры класса Card для каждого объекта из массива
+    // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
-      const card = new Card(item, '.template-card');
-      const cardElement = card.createCard();
-     
-      defaultCardList.addItem(cardElement);
+        const card = new Card(
+            item,
+            '.template-card',
+            handleCardClick);
+        const cardElement = card.createCard();
+
+        defaultCardList.addItem(cardElement);
     }
-  }, '.places');
-  defaultCardList.renderItems();
+}, '.places');
+defaultCardList.renderItems();
 
 
 //Объект свойств модальных окон, необходых для валидации
@@ -145,7 +167,7 @@ const object = {
 
 //Создаем экземпляр класса FormValidator для Модалки редактирования профиля
 const editeProfileValidator = new FormValidator(object, editProfileModal);
-editeProfileValidator.enableValidation(); 
+editeProfileValidator.enableValidation();
 
 //Создаем экземпляр класса FormValidator для Модалки добавления новой карточки
 const addCardValidator = new FormValidator(object, addCardModal);

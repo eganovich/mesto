@@ -9,10 +9,11 @@ const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
 
 
 class Card {
-    constructor(data, templateCardSelector) {
-        this._name = data.name;
-        this._link = data.link;
+    constructor(item, templateCardSelector, handleCardClick) {
+        this._name = item.name;
+        this._link = item.link;
         this._templateCardSelector = templateCardSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     createCard = () => {
@@ -52,15 +53,19 @@ class Card {
         })
     }
 
-    _setEventListenerOpenPreview = () => {
-        this._cardElement.querySelector('.place__photo').addEventListener('click', (evt) => {
+     _setEventListenerOpenPreview = () => {
+      this._cardElement.querySelector('.place__photo').addEventListener('click', (evt) => {
             evt.target.closest('.place');
-            modalPhoto.src = this._cardElement.querySelector('.place__photo').src;
+            console.log('ddd');
+            this._handleCardClick(this._cardElement);})
+            
+            
+            /* modalPhoto.src = this._cardElement.querySelector('.place__photo').src;
             modalPhoto.alt = this._cardElement.querySelector('.place__photo').alt;
             modalPhotoTitle.textContent = this._cardElement.querySelector('.place__name').textContent;
-            toggleModal(photoModal);
-        })
-    }
+            toggleModal(photoModal);  })*/
+       }
+        
 }
 
 export default Card;
