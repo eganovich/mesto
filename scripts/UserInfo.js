@@ -1,8 +1,4 @@
-const editProfileModal = document.querySelector('.modal_type_edit-profile');
-//Объявляем элементы внутри модальных окон
-//editProfileModal
-const editProfileFormName = editProfileModal.querySelector('.modal__input_type_name');
-const editProfileFormAbout = editProfileModal.querySelector('.modal__input_type_about');
+import {editProfileFormName, editProfileFormAbout} from './constants.js';
 
 export default class UserInfo {
     constructor(profileNameSelector, profileAboutSelector) {

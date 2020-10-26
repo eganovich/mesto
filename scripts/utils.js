@@ -1,29 +1,10 @@
-//Функция открытия и закрытия модалки
-export const toggleModal = (modal) => { 
-    modal.classList.toggle('modal_is-open');   
-    if (modal.classList.contains('modal_is-open') === false){ 
-        document.removeEventListener('keydown', closeModalByEsc);
-        modal.removeEventListener('click', closeModalByOverlay);         
-    } else{                    
-        document.addEventListener('keydown', closeModalByEsc);
-        modal.addEventListener('click', closeModalByOverlay); 
-    } 
-} 
+import PopupWithImage from './PopupWithImage.js';
 
-//Функция закртыия модалки по клику на оверлей
-const closeModalByOverlay = (evt) => {
-    if (evt.target.classList.contains('modal__overlay')){
-        toggleModal(evt.target.parentElement);        
-    }       
-};
+//функция открытия превью карточки по клику
+const handleCardClick = (element) => {
+    const popupWithImage = new PopupWithImage('.modal_type_photo', element);
+    popupWithImage.open();
+    popupWithImage.setEventListeners();
+}
 
-//Функция закртыия модалки по клику на Esc
-const closeModalByEsc = (evt) => {
-    const modal = document.querySelector('.modal_is-open')
-    if (evt.key === "Escape") {
-        toggleModal(modal);        
-    };
-    
-};
-
-
+export default handleCardClick;

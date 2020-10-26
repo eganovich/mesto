@@ -1,13 +1,3 @@
-import { toggleModal } from './utils.js';
-
-//Кладем в переменную модальное окно с фотографией
-const photoModal = document.querySelector('.modal_type_photo');
-
-//Кладем в переменные элементы фотографии внутри модалки
-const modalPhoto = photoModal.querySelector('.modal__photo ');
-const modalPhotoTitle = photoModal.querySelector('.modal__photo-title');
-
-
 class Card {
     constructor(item, templateCardSelector, handleCardClick) {
         this._name = item.name;
@@ -58,12 +48,6 @@ class Card {
             evt.target.closest('.place');
             console.log('ddd');
             this._handleCardClick(this._cardElement);})
-            
-            
-            /* modalPhoto.src = this._cardElement.querySelector('.place__photo').src;
-            modalPhoto.alt = this._cardElement.querySelector('.place__photo').alt;
-            modalPhotoTitle.textContent = this._cardElement.querySelector('.place__name').textContent;
-            toggleModal(photoModal);  })*/
        }
         
 }

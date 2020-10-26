@@ -24,7 +24,7 @@ class FormValidator {
   }
 
    //Скрываем ошибки
-   _hideErrorMessage = (inputElement) => {     
+    _hideErrorMessage = (inputElement) => {     
      const errorMessage = this._formElement.querySelector(`#${inputElement.name}-error`);
      inputElement.classList.remove(this._inputErrorClass);
      errorMessage.textContent = "";
