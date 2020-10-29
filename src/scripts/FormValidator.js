@@ -10,21 +10,21 @@ class FormValidator {
     }
  
   //Запускаем валидацию
-    enableValidation = () => {
+    enableValidation() {
       this._resetDefaultBehavior();
       this._setInputEventListeners(this._inputSelector);     
     }
     
 
    //Обнуляем дефолтное поведение формы
-   _resetDefaultBehavior = () => {
+   _resetDefaultBehavior() {
       this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault(); 
     });
   }
 
    //Скрываем ошибки
-    _hideErrorMessage = (inputElement) => {     
+    _hideErrorMessage(inputElement) {     
      const errorMessage = this._formElement.querySelector(`#${inputElement.name}-error`);
      inputElement.classList.remove(this._inputErrorClass);
      errorMessage.textContent = "";
@@ -32,7 +32,7 @@ class FormValidator {
   };
   
   //Показываем ошибки
-    _showErrorMessage = (inputElement) => {   
+    _showErrorMessage(inputElement) {   
     const errorMessage = this._formElement.querySelector(`#${inputElement.name}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorMessage.textContent = inputElement.validationMessage;
@@ -41,7 +41,7 @@ class FormValidator {
   };
 
    //Проверяем валидность конкретного инпута
-  _checkInputValidity = (inputElement) => {    
+  _checkInputValidity(inputElement) {    
     if (!inputElement.validity.valid) {
       this._showErrorMessage(inputElement);
     } else {
@@ -58,7 +58,7 @@ _hasInvalidInput(inputs) {
   };
 
   //Тогглим кнопку в зависимости от валидности всей формы
-  _toggleButtonState = (inputList, buttonSubmit) => {  
+  _toggleButtonState(inputList, buttonSubmit) {  
     if (this._hasInvalidInput(inputList)){
       buttonSubmit.classList.add(this._inactiveButtonClass);
       buttonSubmit.setAttribute('disabled', true);
@@ -71,7 +71,7 @@ _hasInvalidInput(inputs) {
   }
    
   //Добавляем слушатели инпута на все инпуты
-  _setInputEventListeners = () => {
+  _setInputEventListeners() {
     const inputs = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     const buttonSubmit = this._formElement.querySelector(this._submitButtonSelector); 
      inputs.forEach((inputElement) => {

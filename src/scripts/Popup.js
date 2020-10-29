@@ -3,10 +3,13 @@
 export default class Popup {
     constructor(modalSelector) {
         this._modal = document.querySelector(modalSelector);
+        this._closeModalByEsc = this._closeModalByEsc.bind(this);
+        this._closeModalByOverlay = this._closeModalByOverlay.bind(this);
     }
 
     open() {
         this._modal.classList.add('modal_is-open');
+        
         document.addEventListener('keydown', this._closeModalByEsc);
         this._modal.addEventListener('click', this._closeModalByOverlay);
     }
@@ -19,13 +22,13 @@ export default class Popup {
     }
 
     //Метод закрытия модалки по клику на Esc
-    _closeModalByEsc = (evt) => {
+    _closeModalByEsc(evt) {
         if (evt.key === "Escape") {
             this.close();
         };
     }
     //Функция закрытия модалки по клику на оверлей
-    _closeModalByOverlay = (evt) => {
+    _closeModalByOverlay(evt) {
         if (evt.target.classList.contains('modal__overlay')) {
             this.close();
         }

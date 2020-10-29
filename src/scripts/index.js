@@ -1,3 +1,5 @@
+import '../pages/index.css';
+
 import FormValidator from './FormValidator.js';
 import Card from './Card.js';
 import Section from './Section.js';
@@ -16,6 +18,7 @@ import UserInfo from './UserInfo.js';
 
 import handleCardClick from './utils.js';
 
+console.log('Тест');
 
 //Добавляем карточки на страницу из массива 
 const defaultCardList = new Section({

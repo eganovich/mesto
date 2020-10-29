@@ -6,7 +6,7 @@ class Card {
         this._handleCardClick = handleCardClick;
     }
 
-    createCard = () => {
+    createCard() {
         this._cardElement = this._getTemplate();
         this._setEventListenerDelete();
         this._setEventListenerLike();
@@ -19,7 +19,7 @@ class Card {
         return this._cardElement;
     }
 
-    _getTemplate = () => {
+    _getTemplate(){
         this._cardElement = document
             .querySelector(this._templateCardSelector)
             .content
@@ -29,21 +29,21 @@ class Card {
     }
 
 
-    _setEventListenerDelete = () => {
+    _setEventListenerDelete(){
         const cardRemove = this._cardElement.querySelector('.place__trash');
         cardRemove.addEventListener('click', (evt) => {
             evt.target.closest('.place').remove();
         })
     }
 
-    _setEventListenerLike = () => {
+    _setEventListenerLike() {
         const cardLike = this._cardElement.querySelector('.place__like');
         cardLike.addEventListener('click', (evt) => {
             evt.target.classList.toggle('place__like_active');
         })
     }
 
-     _setEventListenerOpenPreview = () => {
+     _setEventListenerOpenPreview(){
       this._cardElement.querySelector('.place__photo').addEventListener('click', (evt) => {
             evt.target.closest('.place');
             console.log('ddd');
