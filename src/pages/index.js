@@ -1,8 +1,8 @@
 import '../pages/index.css';
 
-import FormValidator from './FormValidator.js';
-import Card from './Card.js';
-import Section from './Section.js';
+import FormValidator from '../components/FormValidator.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
 
 import {
     initialCards,
@@ -11,12 +11,12 @@ import {
     addCardModal,
     editProfileModalOpenButton,
     addCardModalOpenButton
-} from './constants.js'
+} from '../components/constants.js'
 
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
-import handleCardClick from './utils.js';
+import handleCardClick from '../components/utils.js';
 
 //Добавляем карточки на страницу из массива 
 const defaultCardList = new Section({
