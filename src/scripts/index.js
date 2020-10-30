@@ -18,8 +18,6 @@ import UserInfo from './UserInfo.js';
 
 import handleCardClick from './utils.js';
 
-console.log('Тест');
-
 //Добавляем карточки на страницу из массива 
 const defaultCardList = new Section({
     cards: initialCards,
