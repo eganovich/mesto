@@ -3,6 +3,7 @@
 @import url('./__like/place__like.css');
 @import url('./__about/place__about.css');
 @import url('./__trash/place__trash.css');
+@import url('./__photo-cover/place__photo-cover.css');
 
 .place{
     width: 282px;
@@ -15,3 +16,4 @@
     justify-content: flex-end;
     position: relative;    
 }
+

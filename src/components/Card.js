@@ -44,7 +44,7 @@ class Card {
     }
 
      _setEventListenerOpenPreview(){
-      this._cardElement.querySelector('.place__photo').addEventListener('click', (evt) => {
+      this._cardElement.querySelector('.place__photo-cover').addEventListener('click', (evt) => {
             evt.target.closest('.place');
             console.log('ddd');
             this._handleCardClick(this._cardElement);})

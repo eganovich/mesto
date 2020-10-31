@@ -6,4 +6,5 @@
     object-fit: cover;
     display: block;
     margin-bottom: 25px;
+    z-index: 0;
 }
