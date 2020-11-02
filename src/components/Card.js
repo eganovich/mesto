@@ -31,8 +31,9 @@ class Card {
 
     _setEventListenerDelete(){
         const cardRemove = this._cardElement.querySelector('.place__trash');
-        cardRemove.addEventListener('click', (evt) => {
-            evt.target.closest('.place').remove();
+        cardRemove.addEventListener('click', () => {
+            this._cardElement.remove();
+            this._cardElement.reset();
         })
     }
 
@@ -44,10 +45,8 @@ class Card {
     }
 
      _setEventListenerOpenPreview(){
-      this._cardElement.querySelector('.place__photo-cover').addEventListener('click', (evt) => {
-            evt.target.closest('.place');
-            console.log('ddd');
-            this._handleCardClick(this._cardElement);})
+      this._cardElement.querySelector('.place__photo-cover').addEventListener('click', () => {
+        this._handleCardClick(this._cardElement);})
        }
         
 }

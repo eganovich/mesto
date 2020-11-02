@@ -1,5 +1,6 @@
 class FormValidator {
     constructor (object, formElement) {
+      this._modal = object.modalSelector;
       this._formSelector = object.formSelector;
       this._inputSelector = object.inputSelector;
       this._submitButtonSelector = object.submitButtonSelector;
@@ -81,7 +82,28 @@ _hasInvalidInput(inputs) {
       });
     }); 
   }
+
+  disableButton(){
+    this._formElement.querySelector(this._submitButtonSelector).classList.add('modal__submit-button_disabled');
+    this._formElement.querySelector(this._submitButtonSelector).setAttribute('disabled', true);
+  };
+
+  enableButton(){
+    this._formElement.querySelector(this._submitButtonSelector).classList.remove('modal__submit-button_disabled');
+    this._formElement.querySelector(this._submitButtonSelector).removeAttribute('disabled');
+  }; 
   
+  resetErrors(){
+    //this._modal.querySelector('.modal__edit-form').reset();
+
+    this._formElement.querySelectorAll('.modal__error-message').forEach(item => {
+        item.classList.remove('modal__error-message_visible');
+    });
+
+    this._formElement.querySelectorAll('.modal__input').forEach(item => {        
+        item.classList.remove('modal__input_invalide');
+    });
+}
 }
 
 export default FormValidator;

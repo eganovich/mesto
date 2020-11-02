@@ -8,8 +8,9 @@ export default class PopupWithImage extends Popup {
     }
 
     open() {
-        this._modal.querySelector('.modal__photo ').src = this._link;
-        this._modal.querySelector('.modal__photo ').alt = this._name;
+        const modal = this._modal.querySelector('.modal__photo');
+        modal.src = this._link;
+        modal.alt = this._name;
         this._modal.querySelector('.modal__photo-title').textContent = this._name;
 
         super.open();

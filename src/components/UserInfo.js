@@ -1,4 +1,4 @@
-import {editProfileFormName, editProfileFormAbout} from './constants.js';
+
 
 export default class UserInfo {
     constructor(profileNameSelector, profileAboutSelector) {
@@ -10,7 +10,9 @@ export default class UserInfo {
         this._profileAbout.textContent = newUserInto.about;
     }
     getUserInfo() {
-        editProfileFormName.value = this._profileName.textContent;
-        editProfileFormAbout.value = this._profileAbout.textContent;
+        this.userInfo = {}
+        this.userInfo.name = this._profileName.textContent;
+        this.userInfo.about = this._profileAbout.textContent;
+        return this.userInfo;
     }
 }

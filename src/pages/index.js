@@ -16,7 +16,20 @@ import {
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-import handleCardClick from '../components/utils.js';
+import {
+    handleCardClick, 
+    setUserInfoFromProfile
+} from '../components/utils.js';
+
+//Функция, которая создает экземпляр карточки
+const createCardInstance = (item) => {
+    const card = new Card(
+        item,
+        '.template-card',
+        handleCardClick);
+    const cardElement = card.createCard(); 
+    return cardElement;
+}
 
 //Добавляем карточки на страницу из массива 
 const defaultCardList = new Section({
@@ -24,12 +37,7 @@ const defaultCardList = new Section({
 
     // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
-        const card = new Card(
-            item,
-            '.template-card',
-            handleCardClick);
-        const cardElement = card.createCard();
-
+        const cardElement = createCardInstance(item);
         defaultCardList.addItem(cardElement);
     }
 }, '.places');
@@ -61,8 +69,10 @@ popupWithFormForEditProfile.setEventListeners();
 
 //Добавляем слушатель на кнопку открытия Модалки обновления профиля
 editProfileModalOpenButton.addEventListener('click', () => {  
-    popupWithFormForEditProfile.enableButton();
-    userInfo.getUserInfo();
+    editeProfileValidator.enableButton();
+    const userInfoFromProfile = userInfo.getUserInfo()
+    setUserInfoFromProfile(userInfoFromProfile);
+    editeProfileValidator.resetErrors();
     popupWithFormForEditProfile.open();
 });
 
@@ -73,11 +83,7 @@ const popupWithFormForAddCard = new PopupWithForm({
         const addCardToList = new Section({
             cards: [{ name: items['place-name'], link: items['place-photo-link'] }],
             renderer: (item) => {
-                const card = new Card(
-                    item,
-                    '.template-card',
-                    handleCardClick);
-                const cardElement = card.createCard();
+                const cardElement = createCardInstance(item);
                 addCardToList.addItem(cardElement);
             }
         }, '.places');
@@ -92,7 +98,8 @@ popupWithFormForAddCard.setEventListeners();
 
 //Добавляем слушатель на кнопку открытия Модалки добавления новой карточки
 addCardModalOpenButton.addEventListener('click', () => {
-    popupWithFormForAddCard.disableButton();
+    addCardValidator.disableButton();
+    addCardValidator.resetErrors();
     popupWithFormForAddCard.open();    
 });
 
