@@ -6,6 +6,7 @@ class FormValidator {
       this._inactiveButtonClass = object.inactiveButtonClass;
       this._inputErrorClass = object.inputErrorClass;
       this._errorClass = object.errorClass;
+      this._errorClassVisible = object.errorClassVisible;
       this._formElement = formElement;
       this._submitButton = this._formElement.querySelector(object.submitButtonSelector);     
     }
@@ -29,7 +30,7 @@ class FormValidator {
      const errorMessage = this._formElement.querySelector(`#${inputElement.name}-error`);
      inputElement.classList.remove(this._inputErrorClass);
      errorMessage.textContent = "";
-     errorMessage.classList.remove(this._errorClass);    
+     errorMessage.classList.remove(this._errorClassVisible);    
   };
   
   //Показываем ошибки
@@ -37,7 +38,7 @@ class FormValidator {
     const errorMessage = this._formElement.querySelector(`#${inputElement.name}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorMessage.textContent = inputElement.validationMessage;
-    errorMessage.classList.add(this._errorClass);
+    errorMessage.classList.add(this._errorClassVisible);
     
   };
 
@@ -89,8 +90,8 @@ _hasInvalidInput(inputs) {
   }; 
   
   resetErrors(){
-        this._formElement.querySelectorAll('.modal__error-message').forEach(item => {
-          item.classList.remove(this._errorClass);
+        this._formElement.querySelectorAll(this._errorClass).forEach(item => {
+          item.classList.remove(this._errorClassVisible);
     });
 
     this._formElement.querySelectorAll(this._inputSelector).forEach(item => {        

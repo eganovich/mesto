@@ -48,5 +48,6 @@ export const objectForValidation = {
     submitButtonSelector: '.modal__submit-button',
     inactiveButtonClass: 'modal__submit-button_disabled',
     inputErrorClass: 'modal__input_invalide',
-    errorClass: 'modal__error-message_visible'
+    errorClass: '.modal__error-message',
+    errorClassVisible: 'modal__error-message_visible',
 }
