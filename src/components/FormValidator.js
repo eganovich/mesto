@@ -3,11 +3,11 @@ class FormValidator {
       this._modal = object.modalSelector;
       this._formSelector = object.formSelector;
       this._inputSelector = object.inputSelector;
-      this._submitButtonSelector = object.submitButtonSelector;
       this._inactiveButtonClass = object.inactiveButtonClass;
       this._inputErrorClass = object.inputErrorClass;
       this._errorClass = object.errorClass;
       this._formElement = formElement;
+      this._submitButton = this._formElement.querySelector(object.submitButtonSelector);     
     }
  
   //Запускаем валидацию
@@ -59,49 +59,42 @@ _hasInvalidInput(inputs) {
   };
 
   //Тогглим кнопку в зависимости от валидности всей формы
-  _toggleButtonState(inputList, buttonSubmit) {  
-    if (this._hasInvalidInput(inputList)){
-      buttonSubmit.classList.add(this._inactiveButtonClass);
-      buttonSubmit.setAttribute('disabled', true);
-      
+  _toggleButtonState(inputs) {  
+    if (this._hasInvalidInput(inputs)){
+      this.disableButton();      
     } else {
-        buttonSubmit.classList.remove(this._inactiveButtonClass);
-        buttonSubmit.removeAttribute('disabled');
-        
+      this.enableButton();        
     }
   }
    
   //Добавляем слушатели инпута на все инпуты
   _setInputEventListeners() {
     const inputs = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const buttonSubmit = this._formElement.querySelector(this._submitButtonSelector); 
-     inputs.forEach((inputElement) => {
+    inputs.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {        
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputs, buttonSubmit);
+        this._toggleButtonState(inputs);
       });
     }); 
   }
 
   disableButton(){
-    this._formElement.querySelector(this._submitButtonSelector).classList.add('modal__submit-button_disabled');
-    this._formElement.querySelector(this._submitButtonSelector).setAttribute('disabled', true);
+    this._submitButton.classList.add(this._inactiveButtonClass);
+    this._submitButton.setAttribute('disabled', true);
   };
 
   enableButton(){
-    this._formElement.querySelector(this._submitButtonSelector).classList.remove('modal__submit-button_disabled');
-    this._formElement.querySelector(this._submitButtonSelector).removeAttribute('disabled');
+    this._submitButton.classList.remove(this._inactiveButtonClass);
+    this._submitButton.removeAttribute('disabled');
   }; 
   
   resetErrors(){
-    //this._modal.querySelector('.modal__edit-form').reset();
-
-    this._formElement.querySelectorAll('.modal__error-message').forEach(item => {
-        item.classList.remove('modal__error-message_visible');
+        this._formElement.querySelectorAll('.modal__error-message').forEach(item => {
+          item.classList.remove(this._errorClass);
     });
 
-    this._formElement.querySelectorAll('.modal__input').forEach(item => {        
-        item.classList.remove('modal__input_invalide');
+    this._formElement.querySelectorAll(this._inputSelector).forEach(item => {        
+        item.classList.remove(this._inputErrorClass);
     });
 }
 }

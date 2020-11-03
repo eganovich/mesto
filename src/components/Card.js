@@ -33,7 +33,7 @@ class Card {
         const cardRemove = this._cardElement.querySelector('.place__trash');
         cardRemove.addEventListener('click', () => {
             this._cardElement.remove();
-            this._cardElement.reset();
+            this._cardElement = null;
         })
     }
 

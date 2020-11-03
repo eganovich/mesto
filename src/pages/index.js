@@ -4,6 +4,7 @@ import FormValidator from '../components/FormValidator.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 
+
 import {
     initialCards,
     objectForValidation,
@@ -15,11 +16,12 @@ import {
 
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 import {
-    handleCardClick, 
     setUserInfoFromProfile
 } from '../components/utils.js';
+
 
 //Функция, которая создает экземпляр карточки
 const createCardInstance = (item) => {
@@ -31,17 +33,25 @@ const createCardInstance = (item) => {
     return cardElement;
 }
 
+
+//функция открытия превью карточки по клику
+const handleCardClick = (element) => {
+    const popupWithImage = new PopupWithImage('.modal_type_photo', element);
+    popupWithImage.open();
+    popupWithImage.setEventListeners();
+}
+
 //Добавляем карточки на страницу из массива 
-const defaultCardList = new Section({
+const CardList = new Section({
     cards: initialCards,
 
     // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
         const cardElement = createCardInstance(item);
-        defaultCardList.addItem(cardElement);
+        CardList.addItem(cardElement);
     }
 }, '.places');
-defaultCardList.renderItems();
+CardList.renderItems();
 
 //Создаем экземпляр класса UserInfo для редактирования профиля
 const userInfo = new UserInfo('.profile__name', '.profile__about');
@@ -80,14 +90,8 @@ editProfileModalOpenButton.addEventListener('click', () => {
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (items) => {
-        const addCardToList = new Section({
-            cards: [{ name: items['place-name'], link: items['place-photo-link'] }],
-            renderer: (item) => {
-                const cardElement = createCardInstance(item);
-                addCardToList.addItem(cardElement);
-            }
-        }, '.places');
-        addCardToList.renderItems();
+        const cardElement = createCardInstance({ name: items['place-name'], link: items['place-photo-link'] });
+        CardList.addItem(cardElement);
         popupWithFormForAddCard.close();
     }
 
