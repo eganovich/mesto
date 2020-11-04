@@ -33,25 +33,25 @@ const createCardInstance = (item) => {
     return cardElement;
 }
 
+const popupWithImage = new PopupWithImage('.modal_type_photo');
+popupWithImage.setEventListeners();
 
 //функция открытия превью карточки по клику
 const handleCardClick = (element) => {
-    const popupWithImage = new PopupWithImage('.modal_type_photo', element);
-    popupWithImage.open();
-    popupWithImage.setEventListeners();
+  popupWithImage.open(element);   
 }
 
 //Добавляем карточки на страницу из массива 
-const CardList = new Section({
+const cardList = new Section({
     cards: initialCards,
 
     // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
         const cardElement = createCardInstance(item);
-        CardList.addItem(cardElement);
+        cardList.addItem(cardElement);
     }
 }, '.places');
-CardList.renderItems();
+cardList.renderItems();
 
 //Создаем экземпляр класса UserInfo для редактирования профиля
 const userInfo = new UserInfo('.profile__name', '.profile__about');
@@ -91,7 +91,7 @@ const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (items) => {
         const cardElement = createCardInstance({ name: items['place-name'], link: items['place-photo-link'] });
-        CardList.addItem(cardElement);
+        cardList.addItem(cardElement);
         popupWithFormForAddCard.close();
     }
 

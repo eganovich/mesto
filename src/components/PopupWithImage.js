@@ -1,17 +1,15 @@
 import Popup from './Popup.js';
 
 class PopupWithImage extends Popup {
-    constructor(modalSelector, element) {
-        super(modalSelector);
-        this._name = element.querySelector('.place__photo').alt;
-        this._link = element.querySelector('.place__photo').src;
+    constructor(modalSelector) {
+        super(modalSelector);     
     }
 
-    open() {
-        const modal = this._modal.querySelector('.modal__photo');
-        modal.src = this._link;
-        modal.alt = this._name;
-        this._modal.querySelector('.modal__photo-title').textContent = this._name;
+    open(element) {
+        const modal = this._modal.querySelector('.modal__photo');        
+        modal.src = element.querySelector('.place__photo').src;
+        modal.alt = element.querySelector('.place__photo').alt;;
+        this._modal.querySelector('.modal__photo-title').textContent = element.querySelector('.place__photo').alt;;
 
         super.open();
     }
