@@ -12,6 +12,8 @@
 @import url('./__error-message/modal__error-message.css');
 @import url('./__error-message/_visible/modal__error-message_visible.css');
 @import url('./__overlay/modal__overlay.css');
+@import url('./__confirm-form/modal__confirm-form.css');
+@import url('./__confirm-button/modal__confirm-button.css');
 
 
 .modal{

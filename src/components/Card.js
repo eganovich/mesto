@@ -1,12 +1,15 @@
 class Card {
-    constructor(item, templateCardSelector, handleCardClick) {
-        this._name = item.name;
-        this._link = item.link;
+    constructor(/* item,  */templateCardSelector, handleCardClick , openConfirmationPopup) {
+        //this._name = item.name;
+        //this._link = item.link;
         this._templateCardSelector = templateCardSelector;
         this._handleCardClick = handleCardClick;
+        this._openConfirmationPopup = openConfirmationPopup;
     }
 
-    createCard() {
+    createCard(item) {
+        this._name = item.name;
+        this._link = item.link;
         this._cardElement = this._getTemplate();
         this._setEventListenerDelete();
         this._setEventListenerLike();
@@ -18,6 +21,11 @@ class Card {
 
         return this._cardElement;
     }
+     
+   /*  deleteCard(){
+        this._cardElement.remove;
+       // item = null;
+    } */
 
     _getTemplate(){
         this._cardElement = document
@@ -32,8 +40,7 @@ class Card {
     _setEventListenerDelete(){
         const cardRemove = this._cardElement.querySelector('.place__trash');
         cardRemove.addEventListener('click', () => {
-            this._cardElement.remove();
-            this._cardElement = null;
+            this._openConfirmationPopup();
         })
     }
 

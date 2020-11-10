@@ -17,7 +17,7 @@ export default class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-        this._modal.querySelector('.modal__edit-form').addEventListener('submit', (e) => {
+            this._modal.querySelector('.modal__edit-form').addEventListener('submit', (e) => {
             this._handleFormSubmit(this._getInputValues());
         });
     }

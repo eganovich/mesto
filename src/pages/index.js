@@ -6,7 +6,7 @@ import Section from '../components/Section.js';
 
 
 import {
-    initialCards,
+    //initialCards,
     objectForValidation,
     editProfileModal,
     addCardModal,
@@ -21,17 +21,30 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import {
     setUserInfoFromProfile
 } from '../components/utils.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
+import Api from '../components/Api.js';
+
 
 
 //Функция, которая создает экземпляр карточки
-const createCardInstance = (item) => {
+/* const createCardInstance = (item) => {
     const card = new Card(
         item,
         '.template-card',
-        handleCardClick);
+        handleCardClick,
+        openPopupWithConfirmation);
     const cardElement = card.createCard(); 
     return cardElement;
-}
+} */
+
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-17',
+    headers: {
+      authorization: 'cd3a27fc-dbc8-4f9e-8b6d-a08ba5c31a75',
+      'Content-Type': 'application/json'
+    }
+  }); 
+
 
 const popupWithImage = new PopupWithImage('.modal_type_photo');
 popupWithImage.setEventListeners();
@@ -41,17 +54,46 @@ const handleCardClick = (element) => {
   popupWithImage.open(element);   
 }
 
-//Добавляем карточки на страницу из массива 
-const cardList = new Section({
-    cards: initialCards,
 
+const card = new Card(
+    '.template-card',
+    handleCardClick,
+    openPopupWithConfirmation);
+
+    
+api.getCards().then((data) => {
+    const items = data.map(card => {
+      return{
+        name: card.name,
+        link: card.link,
+      }
+    });
+    console.log(items);
+    const cardList = new Section({
+        cards: items,
+        // renderer создает экземпляры класса Card для каждого объекта из массива
+        renderer: (item) => {
+            const cardElement = card.createCard(item);
+            cardList.addItem(cardElement);
+            cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        }
+    }, '.places');
+    cardList.renderItems();
+});
+//console.log(initialCards);
+debugger;
+
+//Добавляем карточки на страницу из массива 
+/* const cardList = new Section({
+    cards: initialCards,
     // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
-        const cardElement = createCardInstance(item);
+        const cardElement = card.createCard(item);
         cardList.addItem(cardElement);
+        cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
     }
 }, '.places');
-cardList.renderItems();
+cardList.renderItems(); */
 
 //Создаем экземпляр класса UserInfo для редактирования профиля
 const userInfo = new UserInfo('.profile__name', '.profile__about');
@@ -86,12 +128,15 @@ editProfileModalOpenButton.addEventListener('click', () => {
     popupWithFormForEditProfile.open();
 });
 
+
+
 //Создаем экземпляр класса PopupWithForm для Модалки добавления новой карточки
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (items) => {
-        const cardElement = createCardInstance({ name: items['place-name'], link: items['place-photo-link'] });
+        const cardElement = card.createCard({ name: items['place-name'], link: items['place-photo-link'] });
         cardList.addItem(cardElement);
+    
         popupWithFormForAddCard.close();
     }
 
@@ -108,3 +153,16 @@ addCardModalOpenButton.addEventListener('click', () => {
 });
 
 
+
+const popupWithConfirmation = new PopupWithConfirmation({
+    modalSelector: '.modal_type_delete-card',
+    handleFormSubmit: () => {
+      //console.log(card);
+      cardList.deleteCard(this.card);
+    }
+})
+
+popupWithConfirmation.setEventListeners();
+function openPopupWithConfirmation() {
+    popupWithConfirmation.open();   
+}; 

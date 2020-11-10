@@ -4,6 +4,7 @@
 @import url('./__about/place__about.css');
 @import url('./__trash/place__trash.css');
 @import url('./__photo-cover/place__photo-cover.css');
+@import url('./__trash/_invisible/place__trash_invisible.css');
 
 .place{
     width: 282px;

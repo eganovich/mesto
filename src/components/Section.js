@@ -14,4 +14,10 @@ export default class Section {
     addItem(item) {
        this._container.prepend(item);
     }
+
+ 
+    deleteCard(item){
+        this._container.remove(item);
+       // item = null;
+    } 
 }
