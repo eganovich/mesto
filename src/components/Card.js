@@ -1,15 +1,15 @@
 class Card {
-    constructor(/* item,  */templateCardSelector, handleCardClick , openConfirmationPopup) {
-        //this._name = item.name;
-        //this._link = item.link;
+    constructor(templateCardSelector, handleCardClick , openConfirmationPopup) {
         this._templateCardSelector = templateCardSelector;
         this._handleCardClick = handleCardClick;
         this._openConfirmationPopup = openConfirmationPopup;
+        
     }
 
     createCard(item) {
         this._name = item.name;
         this._link = item.link;
+        this._ownerId = item.ownerId;
         this._cardElement = this._getTemplate();
         this._setEventListenerDelete();
         this._setEventListenerLike();
@@ -18,8 +18,15 @@ class Card {
         this._cardElement.querySelector('.place__photo').src = this._link;
         this._cardElement.querySelector('.place__photo').alt = this._name + '. Фотография.';
         this._cardElement.querySelector('.place__name').textContent = this._name;
+        if (this._ownerId != '1ce5c7de3a5db075869918f8'){
+         this._disableDeleteButton();
+        }
 
         return this._cardElement;
+    }
+
+    _disableDeleteButton(){
+        this._cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
     }
      
    /*  deleteCard(){

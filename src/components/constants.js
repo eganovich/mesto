@@ -30,6 +30,7 @@ export const initialCards = [
 //Объявляем модальные окна по уникальному селектору
 export const editProfileModal = document.querySelector('.modal_type_edit-profile');
 export const addCardModal = document.querySelector('.modal_type_add-card');
+export const editAvatarModal = document.querySelector('.modal_type_edit-avatar');
 
 //Объявляем элементы внутри модальных окон
 //editProfileModal
@@ -40,6 +41,8 @@ export const editProfileFormAbout = editProfileModal.querySelector('.modal__inpu
 //Объявляем кнопки, открывающие модальные окна
 export const editProfileModalOpenButton = document.querySelector('.edit-button');
 export const addCardModalOpenButton = document.querySelector('.add-button');
+
+export const editAvatarOpenButton = document.querySelector('.profile__avatar');
 
 //Объект свойств модальных окон, необходых для валидации
 export const objectForValidation = {

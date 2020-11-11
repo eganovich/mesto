@@ -31,6 +31,20 @@ class Api {
             });
     };
 
+    patchAvatar(userInfo) {
+        return fetch(`${this.url}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this.headers,
+            body: JSON.stringify({
+                avatar: userInfo.avatar,
+            })
+        })
+            .then(res => res.json())
+            .then((data) => {
+                return (data);
+            });
+    };
+
     //Запрос списка карточек
     getCards() {
         return fetch(`${this.url}/cards`, {
@@ -42,7 +56,20 @@ class Api {
             });
     };
 
-    postNewCard() { };
+    postNewCard(newCard) {
+        return fetch(`${this.url}/cards`, {
+            method: 'POST',
+            headers: this.headers,
+            body: JSON.stringify({
+                name: newCard.placeName,
+                link: newCard.placePhotoLink
+            })
+        })
+            .then(res => res.json())
+            .then((data) => {
+                return (data);
+            });
+    };
 
     showLikes() { };
 

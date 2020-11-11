@@ -6,12 +6,13 @@ import Section from '../components/Section.js';
 
 
 import {
-    //initialCards,
     objectForValidation,
     editProfileModal,
     addCardModal,
+    editAvatarModal,
     editProfileModalOpenButton,
-    addCardModalOpenButton
+    addCardModalOpenButton,
+    editAvatarOpenButton
 } from '../components/constants.js'
 
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -35,8 +36,8 @@ import Api from '../components/Api.js';
         openPopupWithConfirmation);
     const cardElement = card.createCard(); 
     return cardElement;
-} */
-
+}
+ */
 const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-17',
     headers: {
@@ -58,7 +59,8 @@ const handleCardClick = (element) => {
 const card = new Card(
     '.template-card',
     handleCardClick,
-    openPopupWithConfirmation);
+    openPopupWithConfirmation,
+    );
 
 
 const cardList = new Section({
@@ -67,19 +69,26 @@ const cardList = new Section({
     renderer: (item) => {
         const cardElement = card.createCard(item);
         cardList.addItem(cardElement);
-        cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        
     }
 }, '.places');
 
 //Добавляем карточки на страницу из массива с сервера
 api.getCards().then((data) => {
+    //debugger;
     const items = data.map(card => {
         return {
             name: card.name,
             link: card.link,
+            ownerId: card.owner._id
         }
     });
-    cardList.renderItems(items);
+    debugger;
+    console.log(items);
+    
+    cardList.renderItems(items); 
+      
 });
 
 
@@ -96,11 +105,12 @@ api.getCards().then((data) => {
 cardList.renderItems(); */
 
 //Создаем экземпляр класса UserInfo для редактирования профиля
-const userInfo = new UserInfo('.profile__name', '.profile__about');
+const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
 
 
 api.getInfoAboutUser().then((infoAboutUser) => {
     userInfo.setUserInfo(infoAboutUser);
+    userInfo.setUserAvatar(infoAboutUser);
 })
 
 
@@ -111,6 +121,11 @@ editeProfileValidator.enableValidation();
 //Создаем экземпляр класса FormValidator для Модалки добавления новой карточки
 const addCardValidator = new FormValidator(objectForValidation, addCardModal);
 addCardValidator.enableValidation();
+
+//Создаем экземпляр класса FormValidator для Модалки добавления новой карточки
+const editAvatarValidator = new FormValidator(objectForValidation, editAvatarModal);
+editAvatarValidator.enableValidation();
+
 
 //Создаем экземпляр класса PopupWithForm для модалки обновления профиля
 const popupWithFormForEditProfile = new PopupWithForm({
@@ -135,21 +150,43 @@ editProfileModalOpenButton.addEventListener('click', () => {
 });
 
 
+//Создаем экземпляр класса PopupWithForm для модалки обновления аватара
+const popupWithFormForEditAvatar = new PopupWithForm({
+    modalSelector: '.modal_type_edit-avatar',
+    handleFormSubmit: (newUserInfo) => {
+        debugger;
+        api.patchAvatar(newUserInfo);
+        userInfo.setUserAvatar(newUserInfo);
+        popupWithFormForEditAvatar.close();
+    }
+});
+
+//добавляем слушателей на модалку popupWithFormForEditAvatar
+popupWithFormForEditAvatar.setEventListeners();
+
+//Добавляем слушатель на кнопку открытия Модалки обновления аватара
+editAvatarOpenButton.addEventListener('click', () => {
+    editAvatarValidator.disableButton();
+    editAvatarValidator.resetErrors();
+    popupWithFormForEditAvatar.open();
+});
+
 
 //Создаем экземпляр класса PopupWithForm для Модалки добавления новой карточки
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
-    handleFormSubmit: (items) => {
-        console.log(Array.from({ 
-            name: items['place-name'], 
-            link: items['place-photo-link'] 
-        })
-        );
-        //const cardElement = card.createCard({ name: items['place-name'], link: items['place-photo-link'] });
-        cardList.renderItems({ name: items['place-name'], link: items['place-photo-link'] });
-        //cardList.addItem(cardElement);
+    handleFormSubmit: (newCard) => {
+        
+        api.postNewCard(newCard).then((data) => {
+         const items = [];
+         items[0] = data;
+        console.log(items);
+         cardList.renderItems(items);
 
-        popupWithFormForAddCard.close();
+        });
+    popupWithFormForAddCard.close();
+       
+       //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
     }
 
 });
