@@ -1,5 +1,3 @@
-
-
 export default class UserInfo {
     constructor(profileNameSelector, profileAboutSelector) {
         this._profileName = document.querySelector(profileNameSelector);

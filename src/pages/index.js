@@ -40,10 +40,10 @@ import Api from '../components/Api.js';
 const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-17',
     headers: {
-      authorization: 'cd3a27fc-dbc8-4f9e-8b6d-a08ba5c31a75',
-      'Content-Type': 'application/json'
+        authorization: 'cd3a27fc-dbc8-4f9e-8b6d-a08ba5c31a75',
+        'Content-Type': 'application/json'
     }
-  }); 
+});
 
 
 const popupWithImage = new PopupWithImage('.modal_type_photo');
@@ -51,7 +51,7 @@ popupWithImage.setEventListeners();
 
 //функция открытия превью карточки по клику
 const handleCardClick = (element) => {
-  popupWithImage.open(element);   
+    popupWithImage.open(element);
 }
 
 
@@ -60,30 +60,30 @@ const card = new Card(
     handleCardClick,
     openPopupWithConfirmation);
 
-    
+
+const cardList = new Section({
+    //cards: cards,
+    // renderer создает экземпляры класса Card для каждого объекта из массива
+    renderer: (item) => {
+        const cardElement = card.createCard(item);
+        cardList.addItem(cardElement);
+        cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+    }
+}, '.places');
+
+//Добавляем карточки на страницу из массива с сервера
 api.getCards().then((data) => {
     const items = data.map(card => {
-      return{
-        name: card.name,
-        link: card.link,
-      }
-    });
-    console.log(items);
-    const cardList = new Section({
-        cards: items,
-        // renderer создает экземпляры класса Card для каждого объекта из массива
-        renderer: (item) => {
-            const cardElement = card.createCard(item);
-            cardList.addItem(cardElement);
-            cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        return {
+            name: card.name,
+            link: card.link,
         }
-    }, '.places');
-    cardList.renderItems();
+    });
+    cardList.renderItems(items);
 });
-//console.log(initialCards);
-debugger;
 
-//Добавляем карточки на страницу из массива 
+
+
 /* const cardList = new Section({
     cards: initialCards,
     // renderer создает экземпляры класса Card для каждого объекта из массива
@@ -98,19 +98,25 @@ cardList.renderItems(); */
 //Создаем экземпляр класса UserInfo для редактирования профиля
 const userInfo = new UserInfo('.profile__name', '.profile__about');
 
+
+api.getInfoAboutUser().then((infoAboutUser) => {
+    userInfo.setUserInfo(infoAboutUser);
+})
+
+
 //Создаем экземпляр класса FormValidator для Модалки редактирования профиля
 const editeProfileValidator = new FormValidator(objectForValidation, editProfileModal);
 editeProfileValidator.enableValidation();
 
 //Создаем экземпляр класса FormValidator для Модалки добавления новой карточки
 const addCardValidator = new FormValidator(objectForValidation, addCardModal);
-addCardValidator.enableValidation(); 
-
+addCardValidator.enableValidation();
 
 //Создаем экземпляр класса PopupWithForm для модалки обновления профиля
 const popupWithFormForEditProfile = new PopupWithForm({
     modalSelector: '.modal_type_edit-profile',
     handleFormSubmit: (newUserInfo) => {
+        api.patchInfoAboutUser(newUserInfo);
         userInfo.setUserInfo(newUserInfo);
         popupWithFormForEditProfile.close();
     }
@@ -120,7 +126,7 @@ const popupWithFormForEditProfile = new PopupWithForm({
 popupWithFormForEditProfile.setEventListeners();
 
 //Добавляем слушатель на кнопку открытия Модалки обновления профиля
-editProfileModalOpenButton.addEventListener('click', () => {  
+editProfileModalOpenButton.addEventListener('click', () => {
     editeProfileValidator.enableButton();
     const userInfoFromProfile = userInfo.getUserInfo()
     setUserInfoFromProfile(userInfoFromProfile);
@@ -134,9 +140,15 @@ editProfileModalOpenButton.addEventListener('click', () => {
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (items) => {
-        const cardElement = card.createCard({ name: items['place-name'], link: items['place-photo-link'] });
-        cardList.addItem(cardElement);
-    
+        console.log(Array.from({ 
+            name: items['place-name'], 
+            link: items['place-photo-link'] 
+        })
+        );
+        //const cardElement = card.createCard({ name: items['place-name'], link: items['place-photo-link'] });
+        cardList.renderItems({ name: items['place-name'], link: items['place-photo-link'] });
+        //cardList.addItem(cardElement);
+
         popupWithFormForAddCard.close();
     }
 
@@ -149,7 +161,7 @@ popupWithFormForAddCard.setEventListeners();
 addCardModalOpenButton.addEventListener('click', () => {
     addCardValidator.disableButton();
     addCardValidator.resetErrors();
-    popupWithFormForAddCard.open();    
+    popupWithFormForAddCard.open();
 });
 
 
@@ -157,12 +169,12 @@ addCardModalOpenButton.addEventListener('click', () => {
 const popupWithConfirmation = new PopupWithConfirmation({
     modalSelector: '.modal_type_delete-card',
     handleFormSubmit: () => {
-      //console.log(card);
-      cardList.deleteCard(this.card);
+        //console.log(card);
+        cardList.deleteCard(this.card);
     }
 })
 
 popupWithConfirmation.setEventListeners();
 function openPopupWithConfirmation() {
-    popupWithConfirmation.open();   
+    popupWithConfirmation.open();
 }; 
