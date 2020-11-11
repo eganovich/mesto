@@ -18,7 +18,7 @@ class Card {
         this._cardElement.querySelector('.place__photo').src = this._link;
         this._cardElement.querySelector('.place__photo').alt = this._name + '. Фотография.';
         this._cardElement.querySelector('.place__name').textContent = this._name;
-        if (this._ownerId != '1ce5c7de3a5db075869918f8'){
+        if (this._ownerId != '1ce5c7de3a5db075869918f8'){ 
          this._disableDeleteButton();
         }
 
@@ -59,8 +59,11 @@ class Card {
     }
 
      _setEventListenerOpenPreview(){
-      this._cardElement.querySelector('.place__photo-cover').addEventListener('click', () => {
-        this._handleCardClick(this._cardElement);})
+      const cardCover = this._cardElement.querySelector('.place__photo-cover');
+      cardCover.addEventListener('click', (evt) => {
+        const openCardElement = evt.target.closest('.place__photo-cover');
+        this._handleCardClick(openCardElement);
+    })
        }
         
 }

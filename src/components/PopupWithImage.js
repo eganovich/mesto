@@ -6,6 +6,7 @@ class PopupWithImage extends Popup {
     }
 
     open(element) {
+        debugger;
         const modal = this._modal.querySelector('.modal__photo');        
         modal.src = element.querySelector('.place__photo').src;
         modal.alt = element.querySelector('.place__photo').alt;;

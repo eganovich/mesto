@@ -60,7 +60,7 @@ const card = new Card(
     '.template-card',
     handleCardClick,
     openPopupWithConfirmation,
-    );
+);
 
 
 const cardList = new Section({
@@ -70,7 +70,7 @@ const cardList = new Section({
         const cardElement = card.createCard(item);
         cardList.addItem(cardElement);
         //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
-        
+
     }
 }, '.places');
 
@@ -78,6 +78,7 @@ const cardList = new Section({
 api.getCards().then((data) => {
     //debugger;
     const items = data.map(card => {
+
         return {
             name: card.name,
             link: card.link,
@@ -86,9 +87,9 @@ api.getCards().then((data) => {
     });
     debugger;
     console.log(items);
-    
-    cardList.renderItems(items); 
-      
+
+    cardList.renderItems(items);
+
 });
 
 
@@ -176,17 +177,21 @@ editAvatarOpenButton.addEventListener('click', () => {
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (newCard) => {
-        
+
         api.postNewCard(newCard).then((data) => {
-         const items = [];
-         items[0] = data;
-        console.log(items);
-         cardList.renderItems(items);
+            const items = [];
+            items[0] = {
+                name: data.name,
+                link: data.link,
+                ownerId: data.owner._id
+            }
+            debugger;
+            cardList.renderItems(items);
 
         });
-    popupWithFormForAddCard.close();
-       
-       //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        popupWithFormForAddCard.close();
+
+        //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
     }
 
 });
