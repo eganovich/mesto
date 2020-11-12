@@ -1,15 +1,18 @@
 class Card {
-    constructor(templateCardSelector, handleCardClick , openConfirmationPopup) {
-        this._templateCardSelector = templateCardSelector;
-        this._handleCardClick = handleCardClick;
-        this._openConfirmationPopup = openConfirmationPopup;
-        
-    }
-
-    createCard(item) {
+    constructor({item, templateCardSelector, handleCardClick , handleCardDelete}) {
         this._name = item.name;
         this._link = item.link;
         this._ownerId = item.ownerId;
+        this._id = item.id;
+        debugger;
+        this._templateCardSelector = templateCardSelector;
+        this._handleCardClick = handleCardClick;
+        this._handleCardDelete = handleCardDelete;
+        this._setEventListenerDelete = this._setEventListenerDelete.bind(this);
+             
+    }
+
+    createCard() {
         this._cardElement = this._getTemplate();
         this._setEventListenerDelete();
         this._setEventListenerLike();
@@ -21,7 +24,6 @@ class Card {
         if (this._ownerId != '1ce5c7de3a5db075869918f8'){ 
          this._disableDeleteButton();
         }
-
         return this._cardElement;
     }
 
@@ -29,10 +31,16 @@ class Card {
         this._cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
     }
      
-   /*  deleteCard(){
-        this._cardElement.remove;
-       // item = null;
-    } */
+   getId(){
+       return this._id;
+   }
+
+    deleteCard(id){
+        if (this._id = `${id}`){ 
+            this._cardElement.remove();
+           }      
+    }
+        
 
     _getTemplate(){
         this._cardElement = document
@@ -45,16 +53,16 @@ class Card {
 
 
     _setEventListenerDelete(){
-        const cardRemove = this._cardElement.querySelector('.place__trash');
-        cardRemove.addEventListener('click', () => {
-            this._openConfirmationPopup();
+      this._cardElement.querySelector('.place__trash').addEventListener('click', () => {
+          debugger;
+            this._handleCardDelete();            
         })
     }
 
     _setEventListenerLike() {
-        const cardLike = this._cardElement.querySelector('.place__like');
+        const cardLike = this._cardElement.querySelector('.place__like-button');
         cardLike.addEventListener('click', (evt) => {
-            evt.target.classList.toggle('place__like_active');
+            evt.target.classList.toggle('place__like-button_active');
         })
     }
 

@@ -50,60 +50,58 @@ const api = new Api({
 const popupWithImage = new PopupWithImage('.modal_type_photo');
 popupWithImage.setEventListeners();
 
-//функция открытия превью карточки по клику
-const handleCardClick = (element) => {
-    popupWithImage.open(element);
+function createCard(item) {
+    const card = new Card({
+        item: item,
+        templateCardSelector: '.template-card',
+        handleCardClick: (element) => {
+            popupWithImage.open(element);
+        },
+        handleCardDelete: () => {
+
+            const popupWithConfirmation = new PopupWithConfirmation({
+                modalSelector: '.modal_type_delete-card',
+                handleFormSubmit: (id) => {                   
+                    api.deleteCard(id).then(() => {
+                        card.deleteCard(id);
+                    });
+                }
+            })
+
+            popupWithConfirmation.setEventListeners();
+
+            popupWithConfirmation.open(item);
+        }
+    })
+    return card.createCard();
+
 }
 
 
-const card = new Card(
-    '.template-card',
-    handleCardClick,
-    openPopupWithConfirmation,
-);
-
-
 const cardList = new Section({
-    //cards: cards,
-    // renderer создает экземпляры класса Card для каждого объекта из массива
     renderer: (item) => {
-        const cardElement = card.createCard(item);
+        debugger;
+        const cardElement = createCard(item);
         cardList.addItem(cardElement);
-        //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
-
     }
 }, '.places');
 
 //Добавляем карточки на страницу из массива с сервера
 api.getCards().then((data) => {
-    //debugger;
     const items = data.map(card => {
 
         return {
             name: card.name,
             link: card.link,
+            id: card._id,
             ownerId: card.owner._id
         }
     });
-    debugger;
-    console.log(items);
 
     cardList.renderItems(items);
 
 });
 
-
-
-/* const cardList = new Section({
-    cards: initialCards,
-    // renderer создает экземпляры класса Card для каждого объекта из массива
-    renderer: (item) => {
-        const cardElement = card.createCard(item);
-        cardList.addItem(cardElement);
-        cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
-    }
-}, '.places');
-cardList.renderItems(); */
 
 //Создаем экземпляр класса UserInfo для редактирования профиля
 const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
@@ -183,6 +181,7 @@ const popupWithFormForAddCard = new PopupWithForm({
             items[0] = {
                 name: data.name,
                 link: data.link,
+                id: data._id,
                 ownerId: data.owner._id
             }
             debugger;
@@ -206,17 +205,3 @@ addCardModalOpenButton.addEventListener('click', () => {
     popupWithFormForAddCard.open();
 });
 
-
-
-const popupWithConfirmation = new PopupWithConfirmation({
-    modalSelector: '.modal_type_delete-card',
-    handleFormSubmit: () => {
-        //console.log(card);
-        cardList.deleteCard(this.card);
-    }
-})
-
-popupWithConfirmation.setEventListeners();
-function openPopupWithConfirmation() {
-    popupWithConfirmation.open();
-}; 

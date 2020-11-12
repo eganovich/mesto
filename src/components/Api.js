@@ -71,6 +71,23 @@ class Api {
             });
     };
 
+   
+    deleteCard(id) {
+        debugger;
+        return fetch(`${this.url}/cards/${id}`, {
+            method: 'DELETE',
+            headers: this.headers,
+            //body: JSON.stringify({
+            //    name: newCard.placeName,
+            //    link: newCard.placePhotoLink
+            //})
+        })
+            .then(res => res.json())
+            .then((data) => {
+                return (data);
+            });
+    };
+
     showLikes() { };
 
     setLike() { };

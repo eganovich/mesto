@@ -15,9 +15,9 @@
       </header>
       <main class="content">
         <section class="profile">
-          <div class="profile__info">            
-           <div class="profile__avatar"></div>                   
-           <div class="profile__about-container">
+          <div class="profile__info">
+            <div class="profile__avatar"></div>
+            <div class="profile__about-container">
               <div class="profile__name-button-container">
                 <h1 class="profile__name"></h1>
                 <button type="button" class="edit-button"></button>
@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  
+
   <div class="modal modal_type_delete-card">
     <div class="modal__overlay">
       <div class="modal__content">
@@ -116,10 +116,13 @@
     <li class="place">
       <div class="place__photo-cover">
         <img class="place__photo" alt="" src="#">
-        </div>
+      </div>
       <div class="place__about">
         <h2 class="place__name"></h2>
-        <button type="button" class="place__like"></button>
+        <div class="place__like">
+          <button type="button" class="place__like-button"></button>
+          <p class="place__like-counter">10</p>
+        </div>
         <button type="button" class="place__trash"></button>
       </div>
   </template>

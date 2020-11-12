@@ -1,4 +1,4 @@
-.place__like{
+.place__like-button{
     background-image: url('../../../images/like.svg');
     background-size: cover;
     width: 20.76px;
@@ -9,7 +9,7 @@
 
 }
 
-.place__like:hover{
+.place__like-button:hover{
     background-image: url('../../../images/like-hover.svg');
     transition: 0.5s ease-in-out;
     cursor: pointer;
