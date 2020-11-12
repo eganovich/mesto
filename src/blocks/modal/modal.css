@@ -5,6 +5,7 @@
 @import url('./__input/modal__input.css');
 @import url('./__input/_invalide/modal__input_invalide.css');
 @import url('./__submit-button/modal__submit-button.css');
+@import url('./__load-button-text/modal__load-button-text.css');
 @import url('./__submit-button/_disabled/modal__submit-button_disabled.css');
 @import url('./__content-photo/modal__content-photo.css');
 @import url('./__photo/modal__photo.css');

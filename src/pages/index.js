@@ -123,7 +123,6 @@ const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__av
 
 
 api.getInfoAboutUser().then((infoAboutUser) => {
-    debugger;
     userInfo.setUserInfo(infoAboutUser);
     userInfo.setUserAvatar(infoAboutUser);
 })
@@ -148,8 +147,9 @@ const popupWithFormForEditProfile = new PopupWithForm({
     handleFormSubmit: (newUserInfo) => {
         debugger;
         popupWithFormForEditProfile.setLoading(true);
-        api.patchInfoAboutUser(newUserInfo);
-        userInfo.setUserInfo(newUserInfo);
+        api.patchInfoAboutUser(newUserInfo).then((data) => {
+            userInfo.setUserInfo(data);
+        })        
         popupWithFormForEditProfile.close();
         popupWithFormForEditProfile.setLoading(false);
     }
@@ -172,9 +172,13 @@ editProfileModalOpenButton.addEventListener('click', () => {
 const popupWithFormForEditAvatar = new PopupWithForm({
     modalSelector: '.modal_type_edit-avatar',
     handleFormSubmit: (newUserInfo) => {
-        api.patchAvatar(newUserInfo);
-        userInfo.setUserAvatar(newUserInfo);
+        debugger;
+        popupWithFormForEditAvatar.setLoading(true);
+        api.patchAvatar(newUserInfo).then((data) => {
+            userInfo.setUserAvatar(data);
+        })        
         popupWithFormForEditAvatar.close();
+        popupWithFormForEditAvatar.setLoading(false);
     }
 });
 
@@ -193,7 +197,7 @@ editAvatarOpenButton.addEventListener('click', () => {
 const popupWithFormForAddCard = new PopupWithForm({
     modalSelector: '.modal_type_add-card',
     handleFormSubmit: (newCard) => {
-
+        popupWithFormForAddCard.setLoading(true);
         api.postNewCard(newCard).then((data) => {
             const items = [];
             items[0] = {
@@ -208,8 +212,7 @@ const popupWithFormForAddCard = new PopupWithForm({
 
         });
         popupWithFormForAddCard.close();
-
-        //cardElement.querySelector('.place__trash').classList.add('place__trash_invisible');
+        popupWithFormForAddCard.setLoading(false);        
     }
 
 });

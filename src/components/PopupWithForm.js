@@ -27,11 +27,15 @@ export default class PopupWithForm extends Popup {
         this._modal.querySelector('.modal__edit-form').reset();
     }   
     
+
     setLoading(isLoading){
+     
       if(isLoading){
-        this._modal.querySelector('.modal__submit-button').textContent = 'Сохранение...'
+        this._modal.querySelector('.modal__default-button-text').style.display = 'none';
+        this._modal.querySelector('.modal__load-button-text').style.display = 'block';
       } else {
-        this._modal.querySelector('.modal__submit-button').textContent = 'Сохранить' 
+        this._modal.querySelector('.modal__default-button-text').style.display = 'block';
+        this._modal.querySelector('.modal__load-button-text').style.display = 'none';
       }
     }
 

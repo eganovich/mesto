@@ -50,7 +50,10 @@
           <input type="text" class="modal__input modal__input_type_about" name="about" value='' placeholder="Работа"
             required minlength="2" maxlength="200">
           <span class="modal__error-message" id="about-error"></span>
-          <button type="submit" class="modal__submit-button">Сохранить</button>
+          <button type="submit" class="modal__submit-button">
+            <div class="modal__default-button-text">Сохранить</div>
+            <div class="modal__load-button-text">Сохранение...</div>
+          </button>
         </form>
       </div>
     </div>
@@ -68,7 +71,10 @@
           <input type="url" class="modal__input modal__input_type_place-photo-link" name="placePhotoLink" value=''
             placeholder="Ссылка на картинку" required>
           <span class="modal__error-message" id="placePhotoLink-error"></span>
-          <button type="submit" class="modal__submit-button modal__submit-button_disabled" disabled>Создать</button>
+          <button type="submit" class="modal__submit-button modal__submit-button_disabled" disabled>
+            <div class="modal__default-button-text">Создать</div>
+            <div class="modal__load-button-text">Сохранение...</div>
+          </button>
         </form>
       </div>
     </div>
@@ -81,7 +87,10 @@
         <form action="#" class="modal__confirm-form" method="post" name="delete-card-form" novalidate>
           <button type="button" class="modal__close-button"></button>
           <h3 class="modal__heading">Вы уверены?</h3>
-          <button type="submit" class="modal__confirm-button">Да</button>
+          <button type="submit" class="modal__confirm-button">
+            <div class="modal__default-button-text">Да</div>
+            <div class="modal__load-button-text">Сохранение...</div>
+          </button>
         </form>
       </div>
     </div>
@@ -96,7 +105,10 @@
           <input type="url" class="modal__input modal__input_type_avatar-link" name="avatar" value=''
             placeholder="Ссылка на аватар" required>
           <span class="modal__error-message" id="avatar-error"></span>
-          <button type="submit" class="modal__submit-button">Да</button>
+          <button type="submit" class="modal__submit-button">
+            <div class="modal__default-button-text">Да</div>
+            <div class="modal__load-button-text">Сохранение...</div>
+          </button>
         </form>
       </div>
     </div>
