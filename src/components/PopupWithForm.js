@@ -25,6 +25,14 @@ export default class PopupWithForm extends Popup {
     close() {
         super.close();
         this._modal.querySelector('.modal__edit-form').reset();
-    }    
+    }   
+    
+    setLoading(isLoading){
+      if(isLoading){
+        this._modal.querySelector('.modal__submit-button').textContent = 'Сохранение...'
+      } else {
+        this._modal.querySelector('.modal__submit-button').textContent = 'Сохранить' 
+      }
+    }
 
 }

@@ -26,18 +26,6 @@ import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import Api from '../components/Api.js';
 
 
-
-//Функция, которая создает экземпляр карточки
-/* const createCardInstance = (item) => {
-    const card = new Card(
-        item,
-        '.template-card',
-        handleCardClick,
-        openPopupWithConfirmation);
-    const cardElement = card.createCard(); 
-    return cardElement;
-}
- */
 const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-17',
     headers: {
@@ -135,6 +123,7 @@ const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__av
 
 
 api.getInfoAboutUser().then((infoAboutUser) => {
+    debugger;
     userInfo.setUserInfo(infoAboutUser);
     userInfo.setUserAvatar(infoAboutUser);
 })
@@ -157,9 +146,12 @@ editAvatarValidator.enableValidation();
 const popupWithFormForEditProfile = new PopupWithForm({
     modalSelector: '.modal_type_edit-profile',
     handleFormSubmit: (newUserInfo) => {
+        debugger;
+        popupWithFormForEditProfile.setLoading(true);
         api.patchInfoAboutUser(newUserInfo);
         userInfo.setUserInfo(newUserInfo);
         popupWithFormForEditProfile.close();
+        popupWithFormForEditProfile.setLoading(false);
     }
 });
 
