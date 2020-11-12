@@ -61,7 +61,7 @@ function createCard(item) {
 
             const popupWithConfirmation = new PopupWithConfirmation({
                 modalSelector: '.modal_type_delete-card',
-                handleFormSubmit: (id) => {                   
+                handleFormSubmit: (id) => {
                     api.deleteCard(id).then(() => {
                         card.deleteCard(id);
                     });
@@ -69,9 +69,35 @@ function createCard(item) {
             })
 
             popupWithConfirmation.setEventListeners();
-
             popupWithConfirmation.open(item);
+        },
+        handleCardLike: (id, likes) => {
+            debugger;
+            function checkArray(likes){
+            for (let i=0; i < likes.length; i++){
+                if (likes[i]._id == '1ce5c7de3a5db075869918f8'){
+                    return true;
+                }
+            };}
+
+            if (checkArray(likes))
+            {
+                
+                api.deleteLike(id).then((data) => {
+                    const likes = data.likes;
+                    card.setLike(likes);
+                })
+               
+            } 
+            else 
+            {
+                api.setLike(id).then((data) => {
+                    const likes = data.likes;
+                    card.setLike(likes);
+                });
+            }
         }
+
     })
     return card.createCard();
 
@@ -94,7 +120,8 @@ api.getCards().then((data) => {
             name: card.name,
             link: card.link,
             id: card._id,
-            ownerId: card.owner._id
+            ownerId: card.owner._id,
+            likes: card.likes
         }
     });
 
@@ -153,7 +180,6 @@ editProfileModalOpenButton.addEventListener('click', () => {
 const popupWithFormForEditAvatar = new PopupWithForm({
     modalSelector: '.modal_type_edit-avatar',
     handleFormSubmit: (newUserInfo) => {
-        debugger;
         api.patchAvatar(newUserInfo);
         userInfo.setUserAvatar(newUserInfo);
         popupWithFormForEditAvatar.close();
@@ -182,7 +208,8 @@ const popupWithFormForAddCard = new PopupWithForm({
                 name: data.name,
                 link: data.link,
                 id: data._id,
-                ownerId: data.owner._id
+                ownerId: data.owner._id,
+                likes: data.likes
             }
             debugger;
             cardList.renderItems(items);

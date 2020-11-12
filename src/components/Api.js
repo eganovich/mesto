@@ -71,9 +71,8 @@ class Api {
             });
     };
 
-   
+
     deleteCard(id) {
-        debugger;
         return fetch(`${this.url}/cards/${id}`, {
             method: 'DELETE',
             headers: this.headers,
@@ -88,9 +87,33 @@ class Api {
             });
     };
 
-    showLikes() { };
+    setLike(id) {
+        return fetch(`${this.url}/cards/likes/${id}`, {
+            method: 'PUT',
+            headers: this.headers,
+            //body: JSON.stringify({
+            //    name: newCard.placeName,
+            //    link: newCard.placePhotoLink
+            //})
+        })
+            .then(res => res.json())
+            .then((data) => {
+                return (data);
+            });
+    };
 
-    setLike() { };
+    deleteLike(id) {
+        return fetch(`${this.url}/cards/likes/${id}`, {
+            method: 'DELETE',
+            headers: this.headers,
+        })
+            .then(res => res.json())
+            .then((data) => {
+                return (data);
+            });
+    };
+
+
 
 }
 
