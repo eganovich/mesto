@@ -4,22 +4,24 @@ class Api {
         this.url = config.url;
     }
 
+    handleOriginalResponse(res) {
+        if (!res.ok) {
+            return Promise.reject(`Error: ${res.status}`);
+        }
+        return res.json();
+    }
+
+
     //Запрос информации о пользователе
     getInfoAboutUser() {
         return fetch(`${this.url}/users/me`, {
             headers: this.headers,
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             })
             .catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -32,17 +34,11 @@ class Api {
                 name: userInfo.name,
                 about: userInfo.about
             })
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -54,17 +50,11 @@ class Api {
             body: JSON.stringify({
                 avatar: userInfo.avatar,
             })
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -72,17 +62,11 @@ class Api {
     getCards() {
         return fetch(`${this.url}/cards`, {
             headers: this.headers,
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -95,17 +79,11 @@ class Api {
                 name: newCard.placeName,
                 link: newCard.placePhotoLink
             })
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -114,17 +92,11 @@ class Api {
         return fetch(`${this.url}/cards/${id}`, {
             method: 'DELETE',
             headers: this.headers,
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -133,17 +105,11 @@ class Api {
         return fetch(`${this.url}/cards/likes/${id}`, {
             method: 'PUT',
             headers: this.headers,
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
 
@@ -152,22 +118,13 @@ class Api {
         return fetch(`${this.url}/cards/likes/${id}`, {
             method: 'DELETE',
             headers: this.headers,
-        }).then((result) => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert('Сервер не отвечает')
-            }
-        })
+        }).then(this.handleOriginalResponse)
             .then((data) => {
                 return (data);
             }).catch(err => {
-                alert(err);
+                console.log(err);
             })
     };
-
-
-
 }
 
 export default Api;

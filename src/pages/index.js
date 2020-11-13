@@ -35,12 +35,20 @@ const api = new Api({
 });
 
 
+//Создаем экземпляр класса UserInfo для редактирования профиля
+const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
+
+//Создаем экземпляр класса PopupWithImage для попап увеличеня фото
 const popupWithImage = new PopupWithImage('.modal_type_photo');
 popupWithImage.setEventListeners();
 
-function createCard(item) {
+//Создаем функцию создания карточки, которая создаем экземпляр класса Card, 
+//задает колбэки функций открытия превью фото, удаления карточки, лайка
+//и возвращает готовую карточку
+function createCard(item, myId) {
     const card = new Card({
         item: item,
+        myId: myId,
         templateCardSelector: '.template-card',
         handleCardClick: (element) => {
             popupWithImage.open(element);
@@ -61,27 +69,26 @@ function createCard(item) {
         },
         handleCardLike: (id, likes) => {
             debugger;
-            function checkArray(likes){
-            for (let i=0; i < likes.length; i++){
-                if (likes[i]._id == '1ce5c7de3a5db075869918f8'){
-                    return true;
-                }
-            };}
+            function checkArray(likes) {
+                for (let i = 0; i < likes.length; i++) {
+                    if (likes[i]._id == myId) {
+                        return true;
+                    }
+                };
+            }
 
-            if (checkArray(likes))
-            {
-                
+            if (checkArray(likes)) {
+
                 api.deleteLike(id).then((data) => {
                     const likes = data.likes;
-                    card.setLike(likes);
+                    card.setLike(likes, myId);
                 })
-               
-            } 
-            else 
-            {
+
+            }
+            else {
                 api.setLike(id).then((data) => {
                     const likes = data.likes;
-                    card.setLike(likes);
+                    card.setLike(likes, myId);
                 });
             }
         }
@@ -91,41 +98,45 @@ function createCard(item) {
 
 }
 
-
+//Создаем экземпляр класс Section, который добавляет в контейнер готовые элементы карточек
 const cardList = new Section({
-    renderer: (item) => {
+    renderer: (item, myId) => {
         debugger;
-        const cardElement = createCard(item);
+        const cardElement = createCard(item, myId);
         cardList.addItem(cardElement);
     }
 }, '.places');
 
-//Добавляем карточки на страницу из массива с сервера
-api.getCards().then((data) => {
-    const items = data.map(card => {
 
-        return {
-            name: card.name,
-            link: card.link,
-            id: card._id,
-            ownerId: card.owner._id,
-            likes: card.likes
-        }
+Promise.all([
+    //в Promise.all передаем массив промисов которые нужно выполнить
+    api.getInfoAboutUser(),
+    api.getCards(),
+])
+    .then(([infoAboutUser, initialCards]) => {
+
+        userInfo.setUserInfo(infoAboutUser);
+        userInfo.setUserAvatar(infoAboutUser);
+        const myId = infoAboutUser._id;
+
+        const items = initialCards.map(card => {
+
+            return {
+                name: card.name,
+                link: card.link,
+                id: card._id,
+                ownerId: card.owner._id,
+                likes: card.likes
+            }
+        });
+        cardList.renderItems(items, myId);
+
+    })
+    .catch((err) => {
+        // попадаем сюда если один из промисов завершится ошибкой
+        console.log(err);
     });
 
-    cardList.renderItems(items);
-
-});
-
-
-//Создаем экземпляр класса UserInfo для редактирования профиля
-const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
-
-
-api.getInfoAboutUser().then((infoAboutUser) => {
-    userInfo.setUserInfo(infoAboutUser);
-    userInfo.setUserAvatar(infoAboutUser);
-})
 
 
 //Создаем экземпляр класса FormValidator для Модалки редактирования профиля
@@ -145,13 +156,12 @@ editAvatarValidator.enableValidation();
 const popupWithFormForEditProfile = new PopupWithForm({
     modalSelector: '.modal_type_edit-profile',
     handleFormSubmit: (newUserInfo) => {
-        debugger;
         popupWithFormForEditProfile.setLoading(true);
         api.patchInfoAboutUser(newUserInfo).then((data) => {
             userInfo.setUserInfo(data);
-        })        
-        popupWithFormForEditProfile.close();
-        popupWithFormForEditProfile.setLoading(false);
+            popupWithFormForEditProfile.close();
+            popupWithFormForEditProfile.setLoading(false);
+        })
     }
 });
 
@@ -176,9 +186,9 @@ const popupWithFormForEditAvatar = new PopupWithForm({
         popupWithFormForEditAvatar.setLoading(true);
         api.patchAvatar(newUserInfo).then((data) => {
             userInfo.setUserAvatar(data);
-        })        
-        popupWithFormForEditAvatar.close();
-        popupWithFormForEditAvatar.setLoading(false);
+            popupWithFormForEditAvatar.close();
+            popupWithFormForEditAvatar.setLoading(false);
+        })
     }
 });
 
@@ -199,6 +209,7 @@ const popupWithFormForAddCard = new PopupWithForm({
     handleFormSubmit: (newCard) => {
         popupWithFormForAddCard.setLoading(true);
         api.postNewCard(newCard).then((data) => {
+            const myId = data.owner._id;
             const items = [];
             items[0] = {
                 name: data.name,
@@ -207,14 +218,11 @@ const popupWithFormForAddCard = new PopupWithForm({
                 ownerId: data.owner._id,
                 likes: data.likes
             }
-            debugger;
-            cardList.renderItems(items);
-
+            cardList.renderItems(items, myId);
+            popupWithFormForAddCard.close();
+            popupWithFormForAddCard.setLoading(false);
         });
-        popupWithFormForAddCard.close();
-        popupWithFormForAddCard.setLoading(false);        
     }
-
 });
 
 //добавляем слушателей на модалку popupWithFormForAddCard
